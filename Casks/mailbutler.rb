@@ -1,13 +1,18 @@
-cask 'mailbutler' do
-  version '6901'
-  sha256 'aac6a940f478dff83bceafd6c28b1d869ad2e487152f623bda884b320c42016e'
+cask "mailbutler" do
+  version "4025,28613"
+  sha256 "2570d08c34482cd9a554c024198184379a7301f72fc86e94e9e649b4e453aeae"
 
-  # mailbutler-io.s3.amazonaws.com was verified as official when first introduced to the cask
-  url "https://mailbutler-io.s3.amazonaws.com/files/MailButler_#{version}.zip"
-  appcast 'https://www.feingeist.io/fg-library/appcast.php?appName=MailButler',
-          checkpoint: 'ecfbf62ce1cb764869b4de948ea80c322070a8eb7903abb9e73e51b06b7402fa'
-  name 'MailButler'
-  homepage 'https://www.mailbutler.io/'
+  url "https://downloads.mailbutler.io/sparkle/public/Mailbutler_#{version.before_comma}-#{version.after_comma}.zip"
+  name "Mailbutler"
+  desc "Personal assistant and productivity tool for Apple Mail"
+  homepage "https://www.mailbutler.io/"
 
-  app 'MailButler.app'
+  livecheck do
+    url "https://www.mailbutler.io/appcast2.php"
+    strategy :sparkle
+  end
+
+  depends_on macos: ">= :high_sierra"
+
+  app "Mailbutler.app"
 end

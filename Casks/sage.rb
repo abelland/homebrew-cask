@@ -1,31 +1,40 @@
-cask 'sage' do
-  if MacOS.version <= :mavericks
-    version '7.2,10.9.5'
-    sha256 'a4cd5c6f3207cd9c429642bb58a6310ba05e6da9fddbf36dc1aa5e47c5904c96'
-  elsif MacOS.version <= :el_capitan
-    version '7.6,10.11.6'
-    sha256 'ba9ffba5dea394dc808c31a7b71af4d0db9759d9440b4dc2e35c921bd03e916f'
-  else
-    version '8.0,10.12.6'
-    sha256 'a0954764e570284d934acd647b834722ac6b8ec55ead14f24f7b6b7a94c4717f'
+cask "sage" do
+  version "9.3,1.1"
+  sha256 "3504a4e47264ab935a93853473c8cee9fa82e43ab0c5f546c1fc95143fd9e1e1"
+
+  url "https://github.com/3-manifolds/Sage_macOS/releases/download/v#{version.after_comma}/SageMath-#{version.before_comma}.dmg",
+      verified: "github.com/3-manifolds/Sage_macOS/"
+  name "Sage"
+  desc "Mathematics software system"
+  homepage "https://www.sagemath.org/"
+
+  livecheck do
+    url "https://github.com/3-manifolds/Sage_macOS/releases/latest"
+    strategy :page_match do |page|
+      match = page.match(%r{href=.*?/v?(\d+(?:\.\d+)*)/SageMath-(\d+(?:\.\d+)*)\.dmg}i)
+      "#{match[2]},#{match[1]}"
+    end
   end
 
-  # mirrors.mit.edu/sage/osx/intel was verified as official when first introduced to the cask
-  url "http://mirrors.mit.edu/sage/osx/intel/sage-#{version.before_comma}-OSX_#{version.after_comma}-x86_64.app.dmg"
-  name 'Sage'
-  homepage 'https://www.sagemath.org/'
+  depends_on macos: ">= :high_sierra"
 
-  depends_on macos: '>= :lion'
+  app "SageMath-#{version.before_comma.dots_to_hyphens}.app"
+  pkg "Recommended_#{version.before_comma.dots_to_underscores}.pkg"
 
-  app "SageMath-#{version.before_comma}.app"
-  binary "#{appdir}/SageMath-#{version.before_comma}.app/Contents/Resources/sage/sage"
-
-  uninstall quit: 'org.sagemath.Sage'
+  uninstall quit:    [
+    "org.computop.sage",
+    "org.computop.SageMath",
+    "com.tcltk.tcllibrary",
+    "com.tcltk.tklibrary",
+  ],
+            pkgutil: [
+              "org.computop.SageMath.bin",
+              "org.computop.SageMath.share",
+            ]
 
   zap trash: [
-               '~/.sage',
-               '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.sagemath.sage.sfl*',
-               '~/Library/Logs/sage.log',
-               '~/Library/Preferences/org.sagemath.Sage.plist',
-             ]
+    "~/.sage",
+    "~/Library/Application Support/SageMath",
+    "~/Library/Preferences/SageMath.plist",
+  ]
 end

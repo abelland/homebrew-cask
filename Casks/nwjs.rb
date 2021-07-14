@@ -1,12 +1,16 @@
-cask 'nwjs' do
-  version '0.26.6'
-  sha256 'b03322a242e52265c597f9828b795fa05f516d762de9593dda1f957c0819ea03'
+cask "nwjs" do
+  version "0.53.1"
+  sha256 "866a4b4d98c51f9e3f34d2b19ecf1df934edafdc6947251da650f2b0d43066a7"
 
   url "https://dl.nwjs.io/v#{version}/nwjs-sdk-v#{version}-osx-x64.zip"
-  appcast 'https://github.com/nwjs/nw.js/releases.atom',
-          checkpoint: 'db1edc125f82a85ef561fd2507f655d1fac448109d6d22dbd25a0f9ed773df46'
-  name 'NW.js'
-  homepage 'https://nwjs.io/'
+  name "NW.js"
+  desc "Call all Node.js modules directly from the DOM and Web Workers"
+  homepage "https://nwjs.io/"
+
+  livecheck do
+    url "https://github.com/nwjs/nw.js"
+    regex(/^nw[._-]v?(\d+(?:\.\d+)+)$/)
+  end
 
   app "nwjs-sdk-v#{version}-osx-x64/nwjs.app"
   binary "nwjs-sdk-v#{version}-osx-x64/nwjc"

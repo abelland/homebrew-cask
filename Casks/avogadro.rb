@@ -1,13 +1,12 @@
-cask 'avogadro' do
-  version '1.90.0'
-  sha256 '71392555d2d38a486ea58d4a522304b59855fa8c3f71d88316bf3828f7a064da'
+cask "avogadro" do
+  version "1.94.0"
+  sha256 "305d81a2dfcd47f3ee96ca072847bd8fe0d2de2c9a9e21d213a9a79da481e40e"
 
-  # sourceforge.net/avogadro/avogadro2 was verified as official when first introduced to the cask
-  url "https://downloads.sourceforge.net/avogadro/avogadro2/Avogadro2-#{version}-Darwin.dmg"
-  appcast 'https://sourceforge.net/projects/avogadro/rss',
-          checkpoint: '84f164280cc8b8c0749dc382dcd688cff57cc31eebf6ccb907fe4563b2d49152'
-  name 'Avogadro'
-  homepage 'https://avogadro.cc/wiki/Main_Page'
+  url "https://github.com/OpenChemistry/avogadrolibs/releases/download/#{version}/Avogadro2-#{version}-Darwin.dmg",
+      verified: "github.com/OpenChemistry/avogadrolibs/"
+  name "Avogadro"
+  desc "Molecule editor and visualizer"
+  homepage "https://avogadro.cc/"
 
-  app 'Avogadro2.app'
+  app "Avogadro2.app"
 end

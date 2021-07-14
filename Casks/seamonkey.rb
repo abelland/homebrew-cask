@@ -1,42 +1,44 @@
-cask 'seamonkey' do
-  version '2.48'
+cask "seamonkey" do
+  version "2.53.7.1"
 
-  language 'de' do
-    sha256 'da2708b80251636955d802bb32de8a352a46df661337f23801fa3c0f847f40c5'
-    'de'
+  language "de" do
+    sha256 "e9d38b495ad95f980852caa6126c3ec6c3ee96f7df3e8579dc468a7d44dc2ffa"
+    "de"
+  end
+  language "en-GB" do
+    sha256 "0708c7faf96090ebbf2d0d27a321bff24c2c6dc74550be71a353d5aadf896b80"
+    "en-GB"
+  end
+  language "en-US", default: true do
+    sha256 "d119078149d42c5055558339c413e1a86341fbc7431fddd49833eadf7521958c"
+    "en-US"
+  end
+  language "fr" do
+    sha256 "5b76846616780743f655fa005369db432fb1b9925ba98c924a873e4cec3d81a0"
+    "fr"
+  end
+  language "it" do
+    sha256 "5241f802670be852406b66784598f901ae92121ef540d4136e4b7179b159628e"
+    "it"
+  end
+  language "ru" do
+    sha256 "e46dc04b8f917011df15a722d5f732fc4f4d36251d2a9494edaa068ec084cb1c"
+    "ru"
   end
 
-  language 'en-GB' do
-    sha256 'db5ed7989a2cac2c560dd8d3b5e231499a2cefbf944626eaf44b44445d1f5d1f'
-    'en-GB'
-  end
+  url "https://archive.mozilla.org/pub/seamonkey/releases/#{version}/mac/#{language}/seamonkey-#{version}.#{language}.mac.dmg",
+      verified: "mozilla.org/pub/seamonkey/releases/"
+  name "SeaMonkey"
+  desc "Development of SeaMonkey Internet Application Suite"
+  homepage "https://www.seamonkey-project.org/"
 
-  language 'en', default: true do
-    sha256 '53431df9cd50cb6b7442fa5496f57b4b5bca0e5e005c058401f8ca958ad96428'
-    'en-US'
+  livecheck do
+    url "https://www.seamonkey-project.org/releases/"
+    strategy :page_match
+    regex(%r{href=.*?/seamonkey-(\d+(?:\.\d+)*)\.en-US\.mac\.dmg}i)
   end
-
-  language 'fr' do
-    sha256 '2ca2ec22cc28676721813d147355c2c0e3b3f9c97bba9fe00ef31bc642ee254f'
-    'fr'
-  end
-
-  language 'it' do
-    sha256 '717a3f87c37bb76a712dfa81a6483ae17e179b9e5daf644585838ea03e961ee2'
-    'it'
-  end
-
-  language 'ru' do
-    sha256 '44f30154148f6ae7754ea849e0fd93fe305eb9cf6ffdd9a42b1b57cab4b0048c'
-    'ru'
-  end
-
-  # mozilla.org/pub/seamonkey/releases was verified as official when first introduced to the cask
-  url "https://ftp.mozilla.org/pub/seamonkey/releases/#{version}/mac/#{language}/SeaMonkey%20#{version}.dmg"
-  name 'SeaMonkey'
-  homepage 'https://www.seamonkey-project.org/'
 
   auto_updates true
 
-  app 'SeaMonkey.app'
+  app "SeaMonkey.app"
 end

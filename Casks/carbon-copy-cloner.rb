@@ -1,24 +1,35 @@
-cask 'carbon-copy-cloner' do
-  version '5.0.4.5163'
-  sha256 '357abb873767aa2c28073a51d29c84bffde29960477d4896af25a0cc47bf8012'
+cask "carbon-copy-cloner" do
+  version "6.0.2.7152"
+  sha256 "bb964f34bef88f93f7aafe0ca45f57aad7618de104fda836384c626c283f3ed6"
 
-  # bombich.scdn1.secure.raxcdn.com/software/files was verified as official when first introduced to the cask
-  url "https://bombich.scdn1.secure.raxcdn.com/software/files/ccc-#{version}.zip"
-  name 'Carbon Copy Cloner'
-  homepage 'https://bombich.com/'
+  url "https://bombich.scdn1.secure.raxcdn.com/software/files/ccc-#{version}.zip",
+      verified: "bombich.scdn1.secure.raxcdn.com/software/files/"
+  name "Carbon Copy Cloner"
+  desc "Hard disk backup and cloning utility"
+  homepage "https://bombich.com/"
 
-  app 'Carbon Copy Cloner.app'
+  livecheck do
+    url "https://bombich.com/software/download_ccc.php?v=latest"
+    strategy :header_match
+  end
 
-  uninstall login_item: 'CCC User Agent',
+  auto_updates true
+  depends_on macos: ">= :catalina"
+
+  app "Carbon Copy Cloner.app"
+
+  uninstall login_item: "CCC User Agent",
             quit:       [
-                          'com.bombich.ccc',
-                          'com.bombich.cccuseragent',
-                        ]
+              "com.bombich.ccc",
+              "com.bombich.cccuseragent",
+            ]
 
   zap trash: [
-               '~/Library/Application Support/com.bombich.ccc',
-               '~/Library/Caches/com.bombich.ccc',
-               '~/Library/Preferences/com.bombich.ccc.plist',
-               '~/Library/Saved Application State/com.bombich.ccc.savedState',
-             ]
+    "~/Library/Application Support/com.bombich.ccc",
+    "~/Library/Caches/com.bombich.ccc",
+    "~/Library/Preferences/com.bombich.ccc.plist",
+    "~/Library/Preferences/com.bombich.cccuseragent.plist",
+    "~/Library/Saved Application State/com.bombich.ccc.savedState",
+    "/Library/LaunchDaemons/com.bombich.ccchelper.plist",
+  ]
 end

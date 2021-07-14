@@ -1,15 +1,27 @@
-cask 'studiolinkstandalone' do
-  version '17.03.1-beta'
-  sha256 '313339a57e3c49463509237f247f96f4279efbceb319916f6f0e6f78fe967925'
+cask "studiolinkstandalone" do
+  version "21.03.2"
 
-  # github.com/Studio-Link-v2/backend was verified as official when first introduced to the cask
-  url "https://github.com/Studio-Link-v2/backend/releases/download/v#{version}/studio-link-standalone-osx.zip"
-  appcast 'https://github.com/Studio-Link-v2/backend/releases.atom',
-          checkpoint: 'bff5b9f008c1b4203eb2d845f8ec1e197392e45a5417fb064ae5f1a55248bf48'
-  name 'Studio Link Standalone'
-  homepage 'https://doku.studio-link.de/standalone/installation-standalone.html'
+  if MacOS.version <= :mojave
+    sha256 "d09e0b5a27c6a2dbdf206a6f44e966ddb58a8044f2d9ce8895084d5a26a51d88"
 
-  app 'StudioLinkStandalone.app'
+    url "https://download.studio.link/releases/v#{version}-stable/macos_x86_64/studio-link-standalone-v#{version}-stable.zip",
+        verified: "download.studio.link/"
+  else
+    sha256 "feae3f82fd88af6b670d3d6ee2ab91300e86012a8470ff0b7d56a443d6cdc4c3"
 
-  zap trash: '~/.studio-link'
+    url "https://download.studio.link/releases/v#{version}-stable/macos_x86_64/signed/studio-link-standalone-v#{version}-stable.zip",
+        verified: "download.studio.link/"
+  end
+
+  name "Studio Link Standalone"
+  desc "SIP application to create high quality Audio over IP (AoIP) connections"
+  homepage "https://studio-link.de/"
+
+  livecheck do
+    url "https://gitlab.com/studio.link/app.git"
+    strategy :git
+    regex(/^v?(\d+(?:\.\d+)*)[._-]stable$/i)
+  end
+
+  app "StudioLinkStandalone.app"
 end

@@ -1,13 +1,26 @@
-cask 'dosbox' do
-  version '0.74'
-  sha256 '99057370b478608a6f0167ef522ef59e0e1b876f8565622d3dbd707925d61f6c'
+cask "dosbox" do
+  version "0.74-3,3"
+  sha256 "83493d149318cb7bfe5d68d98d1cd10b003db2f0519374bf06de285dc0bb2768"
 
-  # sourceforge.net/dosbox was verified as official when first introduced to the cask
-  url "https://downloads.sourceforge.net/dosbox/dosbox/#{version}/DOSBox-#{version}-1_Universal.dmg"
-  appcast 'https://sourceforge.net/projects/dosbox/rss?path=/dosbox',
-          checkpoint: '181ae1f8ae2771186dae48561f598a99c78b6b90c7cb3dd5a828653af6ce891d'
-  name 'DOSBox'
-  homepage 'https://www.dosbox.com/'
+  url "https://downloads.sourceforge.net/dosbox/dosbox/#{version.before_comma}/DOSBox-#{version.before_comma}-#{version.after_comma}.dmg",
+      verified: "sourceforge.net/dosbox/"
+  name "DOSBox"
+  desc "Emulator for x86 with DOS"
+  homepage "https://www.dosbox.com/"
 
-  app 'DOSBox.app'
+  livecheck do
+    url "https://sourceforge.net/projects/dosbox/rss?path=/dosbox"
+    strategy :page_match do |page|
+      page.scan(%r{<link>.*/DOSBox-(\d+(?:[.-]\d+)*).dmg}i).map do |matches|
+        versions = matches[0].split("-")
+        version = "#{versions[0]}-#{versions[1]},#{versions[2]}" if versions.length == 3
+        version = "#{versions[0]}-#{versions[1]}" if versions.length == 2
+        version
+      end
+    end
+  end
+
+  app "dosbox.app"
+
+  zap trash: "~/Library/Preferences/DOSBox*"
 end

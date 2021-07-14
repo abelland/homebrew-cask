@@ -1,35 +1,41 @@
-cask 'zulu' do
-  version '9.0.1.3'
-  sha256 '191dcb021aeb49a4d6aac4a2ec93cc3f2c7b602322eb2476ca433277d0d42c8e'
+cask "zulu" do
+  if Hardware::CPU.intel?
+    version "16.0.1,16.30.15-ca"
+    sha256 "a9988581a95f00da7768562f19632a71e13b7d695329b074504b8b6883a6dc30"
 
-  url "https://cdn.azul.com/zulu/bin/zulu#{version}-jdk#{version.major}.#{version.minor}.#{version.patch}-macosx_x64.dmg",
-      referer: 'https://www.azul.com/downloads/zulu/zulu-mac/'
-  name 'Azul Zulu Java Standard Edition Development Kit'
-  homepage 'https://www.azul.com/downloads/zulu/zulu-mac/'
+    url "https://cdn.azul.com/zulu/bin/zulu#{version.after_comma}-jdk#{version.before_comma}-macosx_x64.dmg",
+        referer: "https://www.azul.com/downloads/zulu/zulu-mac/"
 
-  conflicts_with cask: 'java'
+    livecheck do
+      url "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?jdk_version=#{version.major}&ext=dmg&os=macos&arch=x86"
+      strategy :page_match do |page|
+        match = page.match(%r{url"\s*:\s*"https:.*?/zulu(\d+(?:\.\d+)*-.*?)-jdk(\d+(?:\.\d+)*)-macos}i)
+        "#{match[2]},#{match[1]}"
+      end
+    end
+  else
+    version "16.0.1,16.30.19-ca"
+    sha256 "4b00a4675cd2d467af3de06d60821e3cdb25c646e48d0c8a349992f1f8509eab"
+
+    url "https://cdn.azul.com/zulu/bin/zulu#{version.after_comma}-jdk#{version.before_comma}-macosx_aarch64.dmg",
+        referer: "https://www.azul.com/downloads/zulu/zulu-mac/"
+
+    livecheck do
+      url "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?jdk_version=#{version.major}&ext=dmg&os=macos&arch=arm"
+      strategy :page_match do |page|
+        match = page.match(%r{url"\s*:\s*"https:.*?/zulu(\d+(?:\.\d+)*-.*?)-jdk(\d+(?:\.\d+)*)-macos}i)
+        "#{match[2]},#{match[1]}"
+      end
+    end
+  end
+
+  name "Azul Zulu Java Standard Edition Development Kit"
+  desc "OpenJDK distribution from Azul"
+  homepage "https://www.azul.com/downloads/"
+
+  depends_on macos: ">= :sierra"
 
   pkg "Double-Click to Install Zulu #{version.major}.pkg"
 
-  postflight do
-    system_command '/bin/mv',
-                   args: ['-f', '--', "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk", "/Library/Java/JavaVirtualMachines/zulu-#{version}.jdk"],
-                   sudo: true
-    system_command '/bin/ln',
-                   args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/zulu-#{version}.jdk", "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk"],
-                   sudo: true
-    system_command '/bin/ln',
-                   args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk/Contents/Home", '/Library/Java/Home'],
-                   sudo: true
-    system_command '/usr/libexec/PlistBuddy',
-                   args: ['-c', 'Add :JavaVM:JVMCapabilities: string JNI', "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk/Contents/Info.plist"],
-                   sudo: true
-  end
-
-  uninstall pkgutil: "com.azulsystems.zulu.#{version.major}",
-            delete:  [
-                       "/Library/Java/JavaVirtualMachines/zulu-#{version}.jdk",
-                       "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk",
-                       '/Library/Java/Home',
-                     ]
+  uninstall pkgutil: "com.azulsystems.zulu.#{version.major}"
 end

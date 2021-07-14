@@ -1,16 +1,24 @@
-cask 'bitwig-studio' do
-  version '2.2.2'
-  sha256 '4d55ed7f7ce1982e9b26efe0acfc2deb247cade5bc3bd74f2d7d25416c4302e3'
+cask "bitwig-studio" do
+  version "3.3.10"
+  sha256 "d1cda902170d5f35b8173710d416383f940124904ab60366cc0e9f092081622a"
 
   url "https://downloads.bitwig.com/stable/#{version}/Bitwig%20Studio%20#{version}.dmg"
-  name 'Bitwig Studio'
-  homepage 'https://www.bitwig.com/'
+  name "Bitwig Studio"
+  desc "Digital audio workstation"
+  homepage "https://www.bitwig.com/"
 
-  app 'Bitwig Studio.app'
+  livecheck do
+    url "https://www.bitwig.com/download/"
+    regex(/Bitwig\s*Studio\s*v?(\d+(?:\.\d+)+)/i)
+  end
+
+  depends_on macos: ">= :mojave"
+
+  app "Bitwig Studio.app"
 
   zap trash: [
-               '~/Library/Application Support/Bitwig',
-               '~/Library/Caches/Bitwig',
-               '~/Library/Logs/Bitwig',
-             ]
+    "~/Library/Application Support/Bitwig",
+    "~/Library/Caches/Bitwig",
+    "~/Library/Logs/Bitwig",
+  ]
 end

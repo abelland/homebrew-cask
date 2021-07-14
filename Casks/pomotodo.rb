@@ -1,13 +1,29 @@
-cask 'pomotodo' do
-  version '3.3.0,1499943104'
-  sha256 '429c1235bb4a0279723bf141ad92690acf1a2e0c813affb38e0d510cf107821b'
+cask "pomotodo" do
+  version "3.4.2,1508736942"
+  sha256 "7726496a48eeb2901c9762de2a2df743b2010e7ad0b6ccd2cab5a4f49a496f93"
 
-  # cdn.hackplan.com/theair was verified as official when first introduced to the cask
-  url "http://cdn.hackplan.com/theair/#{version.after_comma}/Pomotodo_v#{version.before_comma}.dmg"
-  appcast "https://air.pomotodo.com/v1/p/com.pomotodo.PomotodoMac#{version.major}/latest.xml",
-          checkpoint: '21ebb47c0df9fa1e7af72db365b4f76f9bc0db105e16d866d36f6ad2512a7ba3'
-  name 'Pomodoro'
-  homepage 'https://pomotodo.com/'
+  url "https://cdn.hackplan.com/theair/#{version.after_comma}/Pomotodo.#{version.before_comma}.dmg",
+      verified: "cdn.hackplan.com/theair/"
+  name "Pomododo"
+  desc "Time management app for creators"
+  homepage "https://pomotodo.com/"
 
-  app 'Pomotodo.app'
+  livecheck do
+    url "https://air.pomotodo.com/v1/p/com.pomotodo.PomotodoMac#{version.major}/latest.xml"
+    strategy :sparkle do |item|
+      match = item.url.match(%r{/(\d+)/Pomotodo\.(\d+(?:\.\d+)*)\.dmg}i)
+      "#{match[2]},#{match[1]}"
+    end
+  end
+
+  app "Pomotodo.app"
+
+  zap trash: [
+    "~/Library/Application Scripts/com.pomotodo.PomotodoMacHelper",
+    "~/Library/Caches/com.pomotodo.PomotodoMac",
+    "~/Library/Containers/com.pomotodo.PomotodoMacHelper",
+    "~/Library/Cookies/com.pomotodo.PomotodoMac.binarycookies",
+    "~/Library/Preferences/com.pomotodo.PomotodoMac.plist",
+    "~/Library/WebKit/com.pomotodo.PomotodoMac",
+  ]
 end

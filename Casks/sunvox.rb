@@ -1,10 +1,16 @@
-cask 'sunvox' do
-  version '1.9.2'
-  sha256 'cca6ba7d72fed5c18d04c2ad49d065b956e184b8d0b2b308d7525d01fef0322c'
+cask "sunvox" do
+  version "1.9.6c"
+  sha256 "69c1df158f81a1d69f1f6bfde49a9e65431d1912c5c4d3b5c21af0fc425d9882"
 
-  url "http://www.warmplace.ru/soft/sunvox/sunvox-#{version}.zip"
-  name 'SunVox'
-  homepage 'http://www.warmplace.ru/soft/sunvox/'
+  url "https://www.warmplace.ru/soft/sunvox/sunvox-#{version}.zip"
+  name "SunVox"
+  homepage "https://www.warmplace.ru/soft/sunvox/"
 
-  app 'sunvox/sunvox/osx/SunVox.app'
+  livecheck do
+    url "https://www.warmplace.ru/soft/sunvox/changelog.txt"
+    strategy :page_match
+    regex(/^v(\d+(?:\.\d+)*[a-z]?)\s*\(\d+/i)
+  end
+
+  app "sunvox/sunvox/macos/SunVox.app"
 end

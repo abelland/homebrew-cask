@@ -1,19 +1,19 @@
-cask 'macs-fan-control' do
-  version '1.4.8.1'
-  sha256 'd5e84f099c5e1cb6e56ab376784be5e9e7e3552ce773af41494a1a22df20e8e6'
+cask "macs-fan-control" do
+  version "1.5.9"
+  sha256 "ae0ce94a75cc7b52f316be28fba0bd807ab51ec13076ba78f0029c9a8c96acce"
 
-  url 'https://www.crystalidea.com/downloads/macsfancontrol.zip'
-  appcast 'https://www.crystalidea.com/macs-fan-control/release-notes',
-          checkpoint: 'fc88cb022f266ad06bbeb3f9fbb23847d2f1e0e7ccdac072738327aa4571a621'
-  name 'Macs Fan Control'
-  homepage 'https://www.crystalidea.com/macs-fan-control'
+  url "https://github.com/crystalidea/macs-fan-control/releases/download/v#{version}/macsfancontrol.zip",
+      verified: "github.com/crystalidea/macs-fan-control/"
+  name "Macs Fan Control"
+  desc "Controls and monitors all fans on Apple computers"
+  homepage "https://www.crystalidea.com/macs-fan-control"
 
   auto_updates true
+  depends_on macos: ">= :sierra"
 
-  app 'Macs Fan Control.app'
+  app "Macs Fan Control.app"
 
-  uninstall login_item: 'Macs Fan Control',
-            signal:     ['TERM', 'com.crystalidea.MacsFanControl']
+  uninstall signal: ["TERM", "com.crystalidea.MacsFanControl"]
 
-  zap trash: '~/Library/Preferences/com.crystalidea.macsfancontrol.plist'
+  zap trash: "~/Library/Preferences/com.crystalidea.macsfancontrol.plist"
 end

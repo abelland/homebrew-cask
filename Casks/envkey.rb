@@ -1,13 +1,18 @@
-cask 'envkey' do
-  version '1.1.4'
-  sha256 '1c530c83cd7a1ab2c6045e7e547604d41b9f533fa20318f1a0a7590087daeb0e'
+cask "envkey" do
+  version "1.4.19"
+  sha256 "c98dca849a4d74f8109ff0123602fe86d70df5222266dd254512a18fb5581fa0"
 
-  # github.com/envkey/envkey-app was verified as official when first introduced to the cask
-  url "https://github.com/envkey/envkey-app/releases/download/darwin-x64-prod-v#{version}/EnvKey-#{version}-mac.zip"
-  appcast 'https://github.com/envkey/envkey-app/releases.atom',
-          checkpoint: '639c8b131a363063becff804284d3c2aeccb01b214c1c0f535341ddc03e7358a'
-  name 'EnvKey'
-  homepage 'https://www.envkey.com/'
+  url "https://github.com/envkey/envkey-app/releases/download/darwin-x64-prod-v#{version}/EnvKey-#{version}-mac.zip",
+      verified: "github.com/envkey/envkey-app/"
+  name "EnvKey"
+  desc "Protects credentials and syncs configurations"
+  homepage "https://www.envkey.com/"
 
-  app 'EnvKey.app'
+  livecheck do
+    url :url
+    strategy :git
+    regex(/^darwin-x64-prod-v(\d+(?:\.\d+)*)$/i)
+  end
+
+  app "EnvKey.app"
 end

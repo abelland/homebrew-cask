@@ -1,22 +1,32 @@
-cask 'adguard' do
-  version '1.5.0'
-  sha256 'd709e8f99a923fd14cd51fa3ddfd67c849ee5899386147bb89fca96f79daa36a'
+cask "adguard" do
+  version "2.5.3.955"
+  sha256 "449a8ca91c8755eef4f5f3f247dfdfcdbf8c2a1096ad01f20d983d1ddafb38bc"
 
-  url "https://static.adguard.com/mac/Adguard-#{version}.release.dmg"
-  appcast 'https://static.adguard.com/mac/adguard-release-appcast.xml',
-          checkpoint: '5d7a32eec32db4e42e97837b09e7eb0e32ea23151a27dac9d1cf7a1d8cd5f169'
-  name 'Adguard for Mac'
-  homepage 'https://adguard.com/'
+  url "https://static.adguard.com/mac/release/AdGuard-#{version}.dmg"
+  name "Adguard"
+  desc "Stand alone ad blocker"
+  homepage "https://adguard.com/"
 
-  app 'Adguard.app'
+  livecheck do
+    url "https://static.adguard.com/mac/adguard-release-appcast.xml"
+    strategy :sparkle do |item|
+      item.short_version.sub(/ release.*/, "")
+    end
+  end
+
+  auto_updates true
+
+  pkg "AdGuard.pkg"
+
+  uninstall pkgutil: "com.adguard.mac.adguard-pkg"
 
   zap trash: [
-               '/Library/Application Support/com.adguard.Adguard',
-               '~/Library/Application Support/Adguard',
-               '~/Library/Application Support/com.adguard.Adguard',
-               '~/Library/Caches/com.adguard.Adguard',
-               '~/Library/Cookies/com.adguard.Adguard.binarycookies',
-               '~/Library/Logs/Adguard',
-               '~/Library/Preferences/com.adguard.Adguard.plist',
-             ]
+    "/Library/Application Support/com.adguard.Adguard",
+    "~/Library/Application Support/Adguard",
+    "~/Library/Application Support/com.adguard.Adguard",
+    "~/Library/Caches/com.adguard.Adguard",
+    "~/Library/Cookies/com.adguard.Adguard.binarycookies",
+    "~/Library/Logs/Adguard",
+    "~/Library/Preferences/com.adguard.Adguard.plist",
+  ]
 end

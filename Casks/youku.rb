@@ -1,18 +1,23 @@
-cask 'youku' do
-  version '1.3.1.12078'
-  sha256 '779d490b09ca392550c9bc357f630c9cff78d517f687a98ea8846dc661901893'
+cask "youku" do
+  version "1.9.0.04201"
+  sha256 "7e53d786cad61dbb9efc312477bd282d5329a152e0ef5eb4136509e2893320b9"
 
-  url "http://pcclient.download.youku.com/ikumac/youkumac_#{version}.dmg"
-  name 'Youku'
-  name '优酷'
-  homepage 'https://pd.youku.com/pc'
+  url "https://pcclient.download.youku.com/ikumac/youkumac_#{version}.dmg"
+  name "Youku"
+  name "优酷"
+  desc "Chinese video streaming and sharing platform"
+  homepage "https://pd.youku.com/pc"
 
-  depends_on macos: '>= :mavericks'
+  livecheck do
+    url "https://pd.youku.com/pc"
+    strategy :page_match
+    regex(%r{href=.*?/youkumac_(\d+(?:\.\d+)*)\.dmg}i)
+  end
 
-  app '优酷.app'
+  app "优酷.app"
 
   zap trash: [
-               '~/Library/Application Scripts/com.youku.mac',
-               '~/Library/Containers/com.youku.mac',
-             ]
+    "~/Library/Application Scripts/com.youku.mac",
+    "~/Library/Containers/com.youku.mac",
+  ]
 end

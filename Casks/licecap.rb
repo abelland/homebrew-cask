@@ -1,17 +1,22 @@
-cask 'licecap' do
-  version '1.25'
-  sha256 '0ed33667b3e19ee47fc09b3619499816e229bc678884fd5c27e24e785472f6ba'
+cask "licecap" do
+  version "1.31"
+  sha256 "704cd237b261d355b1ed86f19f286a5a5ad7581ef563cb1c84a5df1266b48f2d"
 
   url "https://www.cockos.com/licecap/licecap#{version.no_dots}.dmg"
-  appcast 'https://www.cockos.com/licecap/',
-          checkpoint: '3213076943b13521614da283c34456831dc9cf09f74bbf204bb08921dc8aa581'
-  name 'LICEcap'
-  homepage 'https://www.cockos.com/licecap/'
+  name "LICEcap"
+  desc "Animated screen capture application"
+  homepage "https://www.cockos.com/licecap/"
 
-  app 'LICEcap.app'
+  livecheck do
+    url :homepage
+    strategy :page_match
+    regex(/v?(\d+(?:\.\d+)*)\s*for\s*macOS/i)
+  end
+
+  app "LICEcap.app"
 
   zap trash: [
-               '~/Library/Application Support/LICEcap',
-               '~/Library/Preferences/com.cockos.LICEcap.plist',
-             ]
+    "~/Library/Application Support/LICEcap",
+    "~/Library/Preferences/com.cockos.LICEcap.plist",
+  ]
 end

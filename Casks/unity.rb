@@ -1,13 +1,25 @@
-cask 'unity' do
-  version '2017.2.0f3,46dda1414e51'
-  sha256 '4e3ced279969bf59efe63124e4dc79ffa69afb3313cd80632a4dc157450c8e4c'
+cask "unity" do
+  version "2021.1.13f1,a03098edbbe0"
+  sha256 "945a057ec35bf699435749eb06657c21f95bc0f8f47956c803e726883fb5c17f"
 
-  url "http://netstorage.unity3d.com/unity/#{version.after_comma}/MacEditorInstaller/Unity.pkg"
-  name 'Unity Editor'
-  homepage 'https://unity3d.com/unity/'
+  url "https://download.unity3d.com/download_unity/#{version.after_comma}/MacEditorInstaller/Unity-#{version.before_comma}.pkg",
+      verified: "download.unity3d.com/download_unity/"
+  name "Unity Editor"
+  desc "Platform for 3D content"
+  homepage "https://unity.com/products"
 
-  pkg 'Unity.pkg'
+  livecheck do
+    url "https://public-cdn.cloud.unity3d.com/hub/prod/releases-darwin.json"
+    strategy :page_match do |page|
+      page.scan(%r{/download_unity/(\h+)/MacEditorInstaller/Unity-(\d+(?:\.\d+)*[a-z]*\d*)\.pkg}i).map do |match|
+        "#{match[1]},#{match[0]}"
+      end
+    end
+  end
 
-  uninstall quit:    'com.unity3d.UnityEditor5.x',
-            pkgutil: 'com.unity3d.UnityEditor5.x'
+  pkg "Unity-#{version.before_comma}.pkg"
+
+  uninstall quit:    "com.unity3d.UnityEditor5.x",
+            pkgutil: "com.unity3d.UnityEditor5.x",
+            delete:  "/Applications/Unity"
 end

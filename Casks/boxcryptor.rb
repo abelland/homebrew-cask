@@ -1,14 +1,42 @@
-cask 'boxcryptor' do
-  version '2.17.892'
-  sha256 '3d3069762effe09cf981e3b6668e53bef978725152706b641b0cc4dda5273d96'
+cask "boxcryptor" do
+  if MacOS.version <= :catalina
+    version "2.41.1307"
+    sha256 "4f2d9957a96566d17cf98f6fd4e06acb0d4db86c7ecbefb9afa718340add2dfa"
+
+    livecheck do
+      url "https://www.boxcryptor.com/en/help/about/macos/"
+      regex(/Download\s+v?(\d+(?:\.\d+)+)\s+for\s+macOS\s+10\.1[0-5]/i)
+    end
+  else
+    version "2.41.1308"
+    sha256 "8f94c02f2d11f7dc71c6127ac994fdb067ee8cda7d0bafb5cc3ff48687278cb1"
+
+    livecheck do
+      url "https://www.boxcryptor.com/l/download-macosx"
+      strategy :header_match
+    end
+  end
 
   url "https://downloads.boxcryptor.com/boxcryptor/mac/Boxcryptor_v#{version}_Installer.dmg"
-  appcast 'https://rink.hockeyapp.net/api/2/apps/7fd6db3e51a977132e3b120c613eaea8',
-          checkpoint: 'cc45bdd46499c1d7ca27750083b8c727f4ed76ca0108147ce43686d14c8264db'
-  name 'Boxcryptor'
-  homepage 'https://www.boxcryptor.com/en/'
+  name "Boxcryptor"
+  desc "Tool to encrypt files and folders in various cloud storage services"
+  homepage "https://www.boxcryptor.com/en/"
 
-  depends_on macos: '>= :yosemite'
+  depends_on macos: ">= :mojave"
 
-  app 'Boxcryptor.app'
+  app "Boxcryptor.app"
+
+  zap trash: [
+    "~/Library/Application Scripts/com.boxcryptor.osx.Rednif",
+    "~/Library/Application Support/Boxcryptor",
+    "~/Library/Application Support/com.boxcryptor.osx",
+    "~/Library/Caches/com.boxcryptor.osx",
+    "~/Library/Containers/com.boxcryptor.osx.Rednif",
+    "~/Library/Logs/Boxcryptor",
+    "~/Library/Preferences/com.boxcryptor.osx.plist",
+    "/Library/LaunchDaemons/com.boxcryptor.BCFS.Mounter.Helper.plist",
+    "/Library/LaunchDaemons/com.boxcryptor.osx.PrivilegedHelper.plist",
+    "/Library/PrivilegedHelperTools/com.boxcryptor.BCFS.Mounter.Helper",
+    "/Library/PrivilegedHelperTools/com.boxcryptor.osx.PrivilegedHelper",
+  ]
 end

@@ -1,12 +1,16 @@
-cask 'repetier-host' do
-  version '1.0.1'
-  sha256 '14e7cb94e9078df23c2b8ac96e559187062b6b159b351cc8c7eb3254cb89a706'
+cask "repetier-host" do
+  version "1.2.1,106"
+  sha256 "87aba4161581040c2e618b66887f0c192767ce193c4cd955967d3f4f3d53422d"
 
-  url "https://download1.repetier.com/files/host-mac/Repetier-Host-Mac_#{version.dots_to_underscores}.dmg"
-  appcast 'https://www.repetier.com/updates/rhm/rhm-appcast.xml',
-          checkpoint: 'ed6e7e102c9f09b9a6e53b4047779bb31bfd2ba71e47f1528f5f13471ba78492'
-  name 'Repetier-Host'
-  homepage 'https://www.repetier.com/'
+  url "https://download1.repetier.com/files/host-mac/Repetier-Host-Mac_#{version.before_comma.dots_to_underscores}.dmg"
+  name "Repetier-Host"
+  desc "3D printing application"
+  homepage "https://www.repetier.com/"
 
-  app 'Repetier-Host Mac.app'
+  livecheck do
+    url "https://download1.repetier.com/files/host-mac/rhm-appcast.xml"
+    strategy :sparkle
+  end
+
+  app "Repetier-Host Mac.app"
 end

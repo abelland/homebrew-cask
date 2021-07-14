@@ -1,12 +1,29 @@
-cask 'mosaic' do
-  version '1.0.8'
-  sha256 '4c17791ab7c5317b58284cc4b33169bfb3449cc94f4154280d8201422ee9e439'
+cask "mosaic" do
+  version "1.3.2"
+  sha256 "7ce5d48c167489d8dd0f7997531251c1a0052e7dc14fa2171e8c09a04e065651"
 
-  url 'http://www.lightpillar.com/appdata/mosaic/Mosaic.zip'
-  appcast 'http://lightpillar.com/appdata/mosaic/features/version-history.html',
-          checkpoint: 'a2ee8699948f0c26de146712982f105c7900de465e30eb02ed03c2a8d25a37e4'
-  name 'Mosaic'
-  homepage 'https://lightpillar.com/mosaic.html'
+  url "https://lightpillar.com/appdata/mosaic/archive/Mosaic_#{version.dots_to_underscores}.pkg"
+  name "Mosaic"
+  desc "Resize and reposition apps"
+  homepage "https://lightpillar.com/mosaic.html"
 
-  app 'Mosaic.app'
+  livecheck do
+    url "https://lightpillar.com/appdata/mosaic/features/version-history.html"
+    regex(/>\s*Version\s*(\d+(?:\.\d+)+)\s*</i)
+  end
+
+  depends_on macos: ">= :el_capitan"
+
+  pkg "Mosaic_#{version.dots_to_underscores}.pkg"
+
+  uninstall pkgutil: [
+    "com.btinternet.pkg.Mosaic",
+    "com.lightpillar.Mosaic.pkg",
+  ]
+
+  zap trash: [
+    "~/Library/Application Support/com.lightpillar.Mosaic",
+    "~/Library/Caches/com.lightpillar.Mosaic",
+    "~/Library/Preferences/com.lightpillar.Mosaic.plist",
+  ]
 end

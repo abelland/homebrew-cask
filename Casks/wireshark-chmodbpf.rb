@@ -1,58 +1,32 @@
-cask 'wireshark-chmodbpf' do
-  version '2.4.3'
-  sha256 '61f500c923b729be56b4bf453c2fca865cd921b8cc153da8a79d45a3f932bdd3'
+cask "wireshark-chmodbpf" do
+  version "3.4.6"
+  sha256 "fbf27fb0947cd2fefca7896158552e6f3b90b863afb46a75780ff0b24d649ce2"
 
   url "https://www.wireshark.org/download/osx/Wireshark%20#{version}%20Intel%2064.dmg"
-  appcast 'https://www.wireshark.org/download/osx/',
-          checkpoint: 'ed58220a9b13fb3ddcfce3202b526284f66d6236cb98e3b5a44a786731878105'
-  name 'Wireshark-ChmodBPF'
-  homepage 'https://www.wireshark.org/'
+  name "Wireshark-ChmodBPF"
+  desc "Network protocol analyzer"
+  homepage "https://www.wireshark.org/"
 
-  conflicts_with cask: 'wireshark'
-  depends_on macos: '>= :mountain_lion'
+  livecheck do
+    url "https://www.wireshark.org/update/0/Wireshark/0.0.0/macOS/x86-64/en-US/stable.xml"
+    strategy :sparkle
+  end
 
-  pkg "Wireshark #{version} Intel 64.pkg",
-      choices: [
-                 {
-                   'choiceIdentifier' => 'wireshark',
-                   'choiceAttribute'  => 'selected',
-                   'attributeSetting' => 0,
-                 },
-                 {
-                   'choiceIdentifier' => 'chmodbpf',
-                   'choiceAttribute'  => 'selected',
-                   'attributeSetting' => 1,
-                 },
-                 {
-                   'choiceIdentifier' => 'cli',
-                   'choiceAttribute'  => 'selected',
-                   'attributeSetting' => 0,
-                 },
-               ]
+  conflicts_with cask: "wireshark"
+  depends_on macos: ">= :sierra"
 
-  postflight do
-    system_command '/usr/sbin/dseditgroup',
+  pkg "Install ChmodBPF.pkg"
+
+  uninstall_preflight do
+    system_command "/usr/sbin/installer",
                    args: [
-                           '-o', 'edit',
-                           '-a', Etc.getpwuid(Process.euid).name,
-                           '-t', 'user',
-                           '--', 'access_bpf'
-                         ],
+                     "-pkg", "#{staged_path}/Uninstall ChmodBPF.pkg",
+                     "-target", "/"
+                   ],
                    sudo: true
   end
 
-  uninstall_preflight do
-    set_ownership '/Library/Application Support/Wireshark'
-  end
-
-  uninstall pkgutil:   'org.wireshark.ChmodBPF.pkg',
-            launchctl: 'org.wireshark.ChmodBPF',
-            script:    {
-                         executable:   '/usr/sbin/dseditgroup',
-                         args:         ['-o', 'delete', 'access_bpf'],
-                         must_succeed: false,
-                         sudo:         true,
-                       }
+  uninstall pkgutil: "org.wireshark.ChmodBPF.pkg"
 
   caveats do
     reboot

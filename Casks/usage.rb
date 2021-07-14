@@ -1,20 +1,26 @@
-cask 'usage' do
-  version '1.4.2'
-  sha256 'e42e63223b9e3a6882bc9b5eb4898c57c534573354cd2b6700c5704d7f7366c0'
+cask "usage" do
+  version "1.4.5.1"
+  sha256 "7ac63ed6601298e9b6739cde87e18bea9a6a41d2718979cbfb9cccb3d578f502"
 
   url "https://mediaatelier.com/Usage/Usage_#{version}.zip"
-  appcast 'https://mediaatelier.com/Usage/feed.php',
-          checkpoint: '22a37487aec18a80c4bc3de274c049422f00a08bdbbdc0e9dbe7de56e61b0b54'
-  name 'Usage'
-  homepage 'https://www.mediaatelier.com/Usage/'
+  name "Usage"
+  desc "Tracks application usage"
+  homepage "https://www.mediaatelier.com/Usage/"
 
-  depends_on macos: '>= :mavericks'
+  livecheck do
+    url "https://www.mediaatelier.com/Usage/feed.php"
+    strategy :sparkle do |item|
+      item.url[/Usage[._-]?(\d+(?:\.\d+)*)\.zip/i, 1]
+    end
+  end
 
-  app 'Usage.app'
+  depends_on macos: ">= :high_sierra"
+
+  app "Usage.app"
 
   zap trash: [
-               '~/Library/Application Support/com.mediaatelier.Usage',
-               '~/Library/Caches/com.mediaatelier.Usage',
-               '~/Library/Preferences/com.mediaatelier.Usage.plist',
-             ]
+    "~/Library/Application Support/com.mediaatelier.Usage",
+    "~/Library/Caches/com.mediaatelier.Usage",
+    "~/Library/Preferences/com.mediaatelier.Usage.plist",
+  ]
 end

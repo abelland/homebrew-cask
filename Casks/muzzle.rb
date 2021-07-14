@@ -1,14 +1,27 @@
-cask 'muzzle' do
-  version '1.3'
-  sha256 'e76e5f5358e8749e7fe2294fee3717ac7327e79eff227430bf3d8f601684a0e6'
+cask "muzzle" do
+  version "1.9,426"
+  sha256 "f1b4e3d75d8b8de5b6217594c627e58a35e43049267b4eb82716393adefc5fa5"
 
-  url 'https://muzzleapp.com/binaries/muzzle.zip'
-  appcast 'https://muzzleapp.com/api/1/appcast.xml',
-          checkpoint: '738534763ca3af3ebc7db7b38bde7ec4c00c6474589e94b07164324ed05a5286'
-  name 'Muzzle'
-  homepage 'https://muzzleapp.com/'
+  url "https://muzzleapp.com/binaries/muzzle-#{version.after_comma}.zip"
+  name "Muzzle"
+  desc "Silence embarrassing notifications while screensharing"
+  homepage "https://muzzleapp.com/"
 
-  depends_on macos: '>= :el_capitan'
+  livecheck do
+    url "https://muzzleapp.com/api/1/appcast.xml"
+    strategy :sparkle
+  end
 
-  app 'Muzzle.app'
+  auto_updates true
+  depends_on macos: ">= :mojave"
+
+  app "Muzzle.app"
+
+  uninstall quit: "com.incident57.Muzzle"
+
+  zap trash: [
+    "~/Library/Caches/com.incident57.Muzzle",
+    "~/Library/Cookies/com.incident57.Muzzle.binarycookies",
+    "~/Library/Preferences/com.incident57.Muzzle.plist",
+  ]
 end

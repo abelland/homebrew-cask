@@ -1,16 +1,23 @@
-cask 'lyricsx' do
-  version '1.2.3'
-  sha256 '70066b02b54a7c8ce84a1c7a63e7ab7f680f27e109d9361756085f6efce21fd2'
+cask "lyricsx" do
+  version "1.6.1,2341"
+  sha256 "b9a4555f9cb070800eba87ae88df65140d72246f18d9f31517a85276d14308f6"
 
-  url "https://github.com/ddddxxx/LyricsX/releases/download/v#{version}/LyricsX.app.zip"
-  appcast 'https://github.com/ddddxxx/LyricsX/releases.atom',
-          checkpoint: '8ad7d3ff76ffc5d54f4f908c146929d2fa66b20402490db177446c9f40771571'
-  name 'LyricsX'
-  homepage 'https://github.com/ddddxxx/LyricsX'
+  url "https://github.com/ddddxxx/LyricsX/releases/download/v#{version.before_comma}/LyricsX_#{version.before_comma}+#{version.after_comma}.zip"
+  name "LyricsX"
+  desc "Lyrics for iTunes, Spotify, Vox and Audirvana Plus"
+  homepage "https://github.com/ddddxxx/LyricsX"
+
+  livecheck do
+    url "https://github.com/ddddxxx/LyricsX/releases/latest"
+    strategy :page_match do |page|
+      match = page.match(%r{href=.*?/LyricsX_(\d+(?:\.\d+)*)\+(\d+)\.zip}i)
+      "#{match[1]},#{match[2]}"
+    end
+  end
 
   auto_updates true
 
-  app 'LyricsX.app'
+  app "LyricsX.app"
 
-  zap trash: '~/ddddxxx.LyricsX'
+  zap trash: "~/ddddxxx.LyricsX"
 end

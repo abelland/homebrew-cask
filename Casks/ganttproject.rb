@@ -1,13 +1,12 @@
-cask 'ganttproject' do
-  version '2.8.5,r2179'
-  sha256 '0f8a752c03e29196d38b1874239c4e8e048b3b8360c82d8da3262ec9e1160ad9'
+cask "ganttproject" do
+  version "3.1.3100"
+  sha256 "397f7d41be9786bd1aab8bca2429df4d2474c6cfeea3566263d026554ffb5507"
 
-  # github.com/bardsoftware/ganttproject/releases/download was verified as official when first introduced to the cask
-  url "https://github.com/bardsoftware/ganttproject/releases/download/ganttproject-#{version.before_comma}/ganttproject-#{version.before_comma}-#{version.after_comma}.dmg"
-  appcast 'https://github.com/bardsoftware/ganttproject/releases.atom',
-          checkpoint: '3bf25b7d2739eace46496219d2955bfcf420a00c9a315a9ff948267d40b7c9d9'
-  name 'GanttProject'
-  homepage 'https://www.ganttproject.biz/'
+  url "https://github.com/bardsoftware/ganttproject/releases/download/ganttproject-#{version}/ganttproject-#{version}.dmg",
+      verified: "github.com/bardsoftware/ganttproject/"
+  name "GanttProject"
+  desc "Gantt chart and project management application"
+  homepage "https://www.ganttproject.biz/"
 
-  app 'GanttProject.app'
+  app "GanttProject.app"
 end

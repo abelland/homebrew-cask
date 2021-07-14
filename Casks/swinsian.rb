@@ -1,12 +1,18 @@
-cask 'swinsian' do
-  version '2.0.2'
-  sha256 '4143bdb2423e5171673fb01572040a93d1e6d4d655f5aae9cb37042a16285d50'
+cask "swinsian" do
+  version "2.3.5,535"
+  sha256 "3210c8c897ef4f81f8c6059f720bf70a1b046d6505a7a8bc140bb104184f23f0"
 
-  url "https://www.swinsian.com/sparkle/Swinsian_#{version}.zip"
-  appcast 'https://www.swinsian.com/sparkle/sparklecast.xml',
-          checkpoint: '92d051c48dad618ed88db439e8feb17f000014989d785fde1e515eaa6761cc98'
-  name 'Swinsian'
-  homepage 'https://swinsian.com/'
+  url "https://www.swinsian.com/sparkle/Swinsian_#{version.before_comma}.zip"
+  name "Swinsian"
+  desc "Music player"
+  homepage "https://swinsian.com/"
 
-  app 'Swinsian.app'
+  livecheck do
+    url "https://www.swinsian.com/sparkle/sparklecast.xml"
+    strategy :sparkle
+  end
+
+  auto_updates true
+
+  app "Swinsian.app"
 end

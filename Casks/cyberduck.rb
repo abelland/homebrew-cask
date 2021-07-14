@@ -1,18 +1,26 @@
-cask 'cyberduck' do
-  version '6.3.1.27228'
-  sha256 'afcc3fa63da2228a743681c9a439091867c9143fa2cac66db8d1838db4b28985'
+cask "cyberduck" do
+  version "7.10.0,35184"
+  sha256 "e3055e1ca17bfcc2ff824626d6da697c944a22b978fcd3517d0d56a58b08ae73"
 
-  url "https://update.cyberduck.io/Cyberduck-#{version}.zip"
-  appcast 'https://version.cyberduck.io/changelog.rss',
-          checkpoint: '30eae1d80f71d716d7abd54696a077b7c799ed18318bfb2d7e1c9c7c0a4ff48d'
-  name 'Cyberduck'
-  homepage 'https://cyberduck.io/'
+  url "https://update.cyberduck.io/Cyberduck-#{version.before_comma}.#{version.after_comma}.zip"
+  name "Cyberduck"
+  desc "Server and cloud storage browser"
+  homepage "https://cyberduck.io/"
 
-  app 'Cyberduck.app'
+  livecheck do
+    url "https://version.cyberduck.io/changelog.rss"
+    strategy :sparkle
+  end
+
+  auto_updates true
+
+  app "Cyberduck.app"
 
   zap trash: [
-               '~/Library/Application Support/Cyberduck',
-               '~/Library/Caches/ch.sudo.cyberduck',
-               '~/Library/Preferences/ch.sudo.cyberduck.plist',
-             ]
+    "~/Library/Application Support/Cyberduck",
+    "~/Library/Caches/ch.sudo.cyberduck",
+    "~/Library/Group Containers/G69SCX94XU.duck",
+    "~/Library/Preferences/ch.sudo.cyberduck.plist",
+    "~/Library/Saved Application State/ch.sudo.cyberduck.savedState",
+  ]
 end

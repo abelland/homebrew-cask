@@ -1,13 +1,28 @@
-cask 'buttercup' do
-  version '0.25.0'
-  sha256 'f6b061862a2094d5f74a4efb168ad570a69798d9e61ec1aecdafeb88c67a9c3a'
+cask "buttercup" do
+  version "2.9.1"
+  sha256 "7fd03f02874d4b9bc89588d05f0b0f519c0020457cc484074bcf7eb59de0d8ea"
 
-  # github.com/buttercup/buttercup-desktop was verified as official when first introduced to the cask
-  url "https://github.com/buttercup/buttercup-desktop/releases/download/v#{version}/buttercup-desktop-#{version}-mac.zip"
-  appcast 'https://github.com/buttercup/buttercup-desktop/releases.atom',
-          checkpoint: '6a0b1030033245d1cecd30c0fd3086761f3ab4fe2289ff27ea815ff91cc3d3d2'
-  name 'Buttercup'
-  homepage 'https://buttercup.pw/'
+  url "https://github.com/buttercup/buttercup-desktop/releases/download/v#{version}/Buttercup-mac-x64-#{version}.dmg",
+      verified: "github.com/buttercup/buttercup-desktop/"
+  name "Buttercup"
+  desc "Javascript Secrets Vault - Multi-Platform Desktop Application"
+  homepage "https://buttercup.pw/"
 
-  app 'Buttercup.app'
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  auto_updates true
+
+  app "Buttercup.app"
+
+  zap trash: [
+    "~/Library/Application Support/Buttercup",
+    "~/Library/Application Support/Buttercup-nodejs",
+    "~/Library/Logs/Buttercup-nodejs",
+    "~/Library/Preferences/Buttercup-nodejs",
+    "~/Library/Preferences/pw.buttercup.desktop.plist",
+    "~/Library/Saved Application State/pw.buttercup.desktop.savedState",
+  ]
 end

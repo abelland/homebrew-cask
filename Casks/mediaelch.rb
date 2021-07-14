@@ -1,12 +1,22 @@
-cask 'mediaelch' do
-  version '2.4.2'
-  sha256 'f82d4c157ef64e25529744fb962771ce678a9e2e3a94b18b3d398dfa5b8b9452'
+cask "mediaelch" do
+  version "2.8.10,2021-05-03:8fa99efb"
+  sha256 "9f6fbc0bcb97887193ea4713fb7834c5f294ffa6b1ba2ceb440c076d77ab9a6a"
 
-  url "http://www.kvibes.de/releases/mediaelch/#{version}/MediaElch-#{version}.dmg"
-  appcast 'https://github.com/Komet/MediaElch/releases.atom',
-          checkpoint: 'ed0fc59d36c76777a9245ef278968e979e7f6ee0b35250a770fcbca34ed851e1'
-  name 'MediaElch'
-  homepage 'http://www.kvibes.de/en/mediaelch/'
+  url "https://github.com/Komet/MediaElch/releases/download/v#{version.before_comma}/MediaElch_macOS_#{version.before_comma}_#{version.after_comma.before_colon}_git-#{version.after_colon}.dmg",
+      verified: "github.com/Komet/MediaElch/"
+  name "MediaElch"
+  desc "Media Manager for Kodi"
+  homepage "https://www.kvibes.de/en/mediaelch/"
 
-  app 'MediaElch.app'
+  livecheck do
+    url "https://github.com/Komet/MediaElch/releases/latest"
+    strategy :page_match do |page|
+      match = page.match(%r{href=.*?/MediaElch_macOS_(\d+(?:\.\d+)*)_(\d+(?:-\d+)*)_git-([^/]*?)\.dmg}i)
+      "#{match[1]},#{match[2]}:#{match[3]}"
+    end
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "MediaElch.app"
 end

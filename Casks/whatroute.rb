@@ -1,27 +1,31 @@
-cask 'whatroute' do
-  version '2.0.25'
-  sha256 'eb6313b345f48847945b5332497f9d71ef21a9d5ffd092062e4ff9a3707b044e'
+cask "whatroute" do
+  version "2.4.4,11773"
+  sha256 "cd8a4c2ec5d335ff53029318b23076e59235c20ad7ac97f889dec6374c4e3dfe"
 
-  url "https://downloads.whatroute.net/software/whatroute-#{version}.zip"
-  appcast "https://www.whatroute.net/whatroute#{version.major}appcast.xml",
-          checkpoint: '58781d519e24379ea87bbbb33701b11be84470e9688ef7dca19dc9a8cc60b0d7'
-  name 'WhatRoute'
-  homepage 'https://www.whatroute.net/'
+  url "https://downloads.whatroute.net/software/whatroute-#{version.before_comma}.zip"
+  name "WhatRoute"
+  desc "Network diagnostic utility"
+  homepage "https://www.whatroute.net/"
 
-  depends_on macos: '>= :yosemite'
+  livecheck do
+    url "https://www.whatroute.net/whatroute#{version.major}appcast.xml"
+    strategy :sparkle
+  end
 
-  app 'WhatRoute.app'
+  depends_on macos: ">= :yosemite"
+
+  app "WhatRoute.app"
 
   uninstall delete:    "/Library/PrivilegedHelperTools/net.whatroute.whatroute#{version.major}helper",
             launchctl: [
-                         'net.whatroute.LaunchHelper',
-                         "net.whatroute.whatroute#{version.major}helper",
-                       ],
+              "net.whatroute.LaunchHelper",
+              "net.whatroute.whatroute#{version.major}helper",
+            ],
             quit:      "net.whatroute.whatroute#{version.major}"
 
   zap trash: [
-               "~/Library/Caches/net.whatroute.whatroute#{version.major}",
-               "~/Library/Logs/net.whatroute.whatroute#{version.major}",
-               "~/Library/Preferences/net.whatroute.whatroute#{version.major}.plist",
-             ]
+    "~/Library/Caches/net.whatroute.whatroute#{version.major}",
+    "~/Library/Logs/net.whatroute.whatroute#{version.major}",
+    "~/Library/Preferences/net.whatroute.whatroute#{version.major}.plist",
+  ]
 end

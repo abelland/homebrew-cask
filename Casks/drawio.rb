@@ -1,19 +1,29 @@
-cask 'drawio' do
-  version '7.6.6'
-  sha256 'a58307cfd1f39b909bbf96347f3f81e6d875706af6e0576bcb694aea75ba5f13'
+cask "drawio" do
+  version "14.6.13"
 
-  # github.com/jgraph/drawio-desktop was verified as official when first introduced to the cask
-  url "https://github.com/jgraph/drawio-desktop/releases/download/v#{version}/draw.io-#{version}.dmg"
-  appcast 'https://github.com/jgraph/drawio-desktop/releases.atom',
-          checkpoint: '60dcab7df088afce24739de76e8cf9838bd61e4aa808b472f0ed65cac5004082'
-  name 'draw.io Desktop'
-  homepage 'https://www.draw.io/'
+  if Hardware::CPU.intel?
+    sha256 "aaf6016b98413f14064d1c1fa3070f160172d9cb602a5cf30fc702e2ffbd37a4"
+    url "https://github.com/jgraph/drawio-desktop/releases/download/v#{version}/draw.io-#{version}.dmg",
+        verified: "github.com/jgraph/drawio-desktop/"
+  else
+    sha256 "21877b5045a1c8b1d4bef5eba881620c32a302fa7d011ebccf8bd287ad9cc8f9"
+    url "https://github.com/jgraph/drawio-desktop/releases/download/v#{version}/draw.io-arm64-#{version}.dmg",
+        verified: "github.com/jgraph/drawio-desktop/"
+  end
 
-  app 'draw.io.app'
+  name "draw.io Desktop"
+  desc "Draw.io is free online diagram software"
+  homepage "https://www.draw.io/"
+
+  app "draw.io.app"
 
   zap trash: [
-               '~/Library/Preferences/com.jgraph.drawio.desktop.helper.plist',
-               '~/Library/Preferences/com.jgraph.drawio.desktop.plist',
-               '~/Library/Saved Application State/com.jgraph.drawio.desktop.savedState',
-             ]
+    "~/Library/Application Support/draw.io",
+    "~/Library/Caches/com.jgraph.drawio.desktop",
+    "~/Library/Logs/draw.io",
+    "~/Library/Preferences/com.jgraph.drawio.desktop.helper.plist",
+    "~/Library/Preferences/com.jgraph.drawio.desktop.plist",
+    "~/Library/Saved Application State/com.jgraph.drawio.desktop.savedState",
+    "~/Library/WebKit/com.jgraph.drawio.desktop",
+  ]
 end

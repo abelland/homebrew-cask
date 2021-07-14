@@ -1,15 +1,19 @@
-cask 'adobe-connect' do
-  version '9.7,982.437'
-  sha256 'd310bda05cac63fca5c90e7b3dae9b09accd7460e88e76482efed2bc763e6cfc'
+cask "adobe-connect" do
+  version "11,2021.4.36"
+  sha256 "fe56b2e5e000f6f0ca80ecbae8b59798cb0bb9c944f39a556711465a9f4561d6"
 
-  url "http://download.adobe.com/pub/connect/updaters/meeting/#{version.before_comma.dots_to_underscores}/AdobeConnect_#{version.after_comma}.dmg"
-  name 'Adobe Connect'
-  homepage 'http://www.adobe.com/products/adobeconnect.html'
+  url "https://download.adobe.com/pub/connect/updaters/meeting/#{version.before_comma}/AdobeConnect_#{version.after_comma.dots_to_underscores}.dmg"
+  name "Adobe Connect"
+  desc "Virtual meeting client"
+  homepage "https://www.adobe.com/products/adobeconnect.html"
+
+  livecheck do
+    skip "No version information available"
+  end
 
   auto_updates true
-  depends_on macos: '>= :mavericks'
 
-  installer manual: 'AdobeConnectInstaller.app'
+  installer manual: "AdobeConnectInstaller.app"
 
-  uninstall delete: '/Applications/Adobe Connect'
+  uninstall delete: "/Applications/Adobe Connect"
 end

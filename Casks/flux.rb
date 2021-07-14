@@ -1,25 +1,31 @@
-cask 'flux' do
-  version '39.984'
-  sha256 'c91c43641f6e6d41a10a8831aecae638cd402ef0c4bb0a0eafc90300d3e6e9ce'
+cask "flux" do
+  version "41.5"
+  sha256 "ffb692b09bbb30e8e70ec8a89c076ede8ca006abd3b990760c9218ae667b0cfb"
 
   url "https://justgetflux.com/mac/Flux#{version}.zip"
-  appcast 'https://justgetflux.com/mac/macflux.xml',
-          checkpoint: 'e25f6de1ea73a8a63230af8221a6f532feaa4b2bdedf3ee186f3af9a4f746350'
-  name 'f.lux'
-  homepage 'https://justgetflux.com/'
+  name "f.lux"
+  desc "Screen color temperature controller"
+  homepage "https://justgetflux.com/"
+
+  # The sparkle feed "https://justgetflux.com/mac/macflux.xml" is currently
+  # unstable and often outputs the older version 40.1 as the latest release.
+  # As a workaround, we extract the version from plist of unversioned download.
+  livecheck do
+    url "https://justgetflux.com/mac/Flux.zip"
+    strategy :extract_plist
+  end
 
   auto_updates true
 
-  app 'Flux.app'
+  app "Flux.app"
 
-  uninstall login_item: 'Flux',
-            quit:       'org.herf.Flux'
+  uninstall quit: "org.herf.Flux"
 
   zap trash: [
-               '~/Library/Application Support/Flux',
-               '~/Library/Caches/org.herf.Flux',
-               '~/Library/Containers/com.justgetflux.flux',
-               '~/Library/Cookies/org.herf.Flux.binarycookies',
-               '~/Library/Preferences/org.herf.Flux.plist',
-             ]
+    "~/Library/Application Support/Flux",
+    "~/Library/Caches/org.herf.Flux",
+    "~/Library/Containers/com.justgetflux.flux",
+    "~/Library/Cookies/org.herf.Flux.binarycookies",
+    "~/Library/Preferences/org.herf.Flux.plist",
+  ]
 end

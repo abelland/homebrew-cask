@@ -1,12 +1,16 @@
-cask 'zoc' do
-  version '7.16.2'
-  sha256 'c8432649c263132f1d993d09d81f3141072f86d4169bc4503ff27f080a423d61'
+cask "zoc" do
+  version "8.02.6"
+  sha256 "921986933f66c82583a8ca51512b0c6a215e169998ca5198ba905993f78398e2"
 
   url "https://www.emtec.com/downloads/zoc/zoc#{version.no_dots}.dmg"
-  appcast "https://www.emtec.com/downloads/zoc/zoc#{version.major}_previous/",
-          checkpoint: '9356113d224e407ef2f96e95dc8d910cc3990d886517edc0aa872bff12874578'
-  name 'ZOC'
-  homepage 'https://www.emtec.com/zoc/'
+  name "ZOC"
+  desc "Professional SSH client and terminal emulator"
+  homepage "https://www.emtec.com/zoc/"
+
+  livecheck do
+    url "https://www.emtec.com/downloads/zoc/zoc_changes.txt"
+    regex(/\*\s*VERSION\s*(\d+(?:\.\d+)+)/i)
+  end
 
   app "zoc#{version.major}.app"
 end

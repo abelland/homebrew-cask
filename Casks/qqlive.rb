@@ -1,24 +1,31 @@
-cask 'qqlive' do
-  version '1.2.1.30329'
-  sha256 '0cbca896dabcfded24e3f177b388895c0023d2673a35577030a924300ce8b0b7'
+cask "qqlive" do
+  version "2.21.0.52979"
+  sha256 "e1c615bc21e62b087857161c745f7128705df7f6b1d8f59078aa19aa2abab61e"
 
   url "https://dldir1.qq.com/qqtv/mac/TencentVideo_V#{version}.dmg"
-  name 'QQLive'
-  name '腾讯视频'
-  homepage 'https://v.qq.com/download.html#mac'
+  name "QQLive"
+  name "TencentVideo"
+  name "腾讯视频"
+  desc "Tencent video streaming and sharing platform"
+  homepage "https://v.qq.com/download.html#mac"
+
+  livecheck do
+    url :homepage
+    regex(%r{href=.*?/TencentVideo[._-]V?(\d+(?:\.\d+)+)\.dmg}i)
+  end
 
   auto_updates true
-  depends_on macos: '>= :yosemite'
+  depends_on macos: ">= :yosemite"
 
-  app 'QQLive.app'
+  app "QQLive.app"
 
   zap trash: [
-               '~/Library/Caches/com.tencent.tenvideo',
-               '~/Library/Containers/com.tencent.tenvideo',
-               '~/Library/Cookies/com.tencent.tenvideo.binarycookies',
-               '~/Library/Logs/QQLive',
-               '~/Library/Preferences/com.tencent.tenvideo.plist',
-               '~/Library/Saved Application State/com.tencent.tenvideo.savedState',
-               '~/Library/WebKit/com.tencent.tenvideo',
-             ]
+    "~/Library/Caches/com.tencent.tenvideo",
+    "~/Library/Containers/com.tencent.tenvideo",
+    "~/Library/Cookies/com.tencent.tenvideo.binarycookies",
+    "~/Library/Logs/QQLive",
+    "~/Library/Preferences/com.tencent.tenvideo.plist",
+    "~/Library/Saved Application State/com.tencent.tenvideo.savedState",
+    "~/Library/WebKit/com.tencent.tenvideo",
+  ]
 end

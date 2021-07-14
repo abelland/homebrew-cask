@@ -1,24 +1,28 @@
-cask 'chatty' do
-  version '0.8.7'
-  sha256 '7c0759fc6a07c0137766f2c9715589c5f25294475ef9c99812ed935b973d26fb'
+cask "chatty" do
+  version "0.15"
+  sha256 "2c98913cf3eb91180a82bad0bb3c155324f235d1649efd9bc21519c77c5d7f48"
 
-  # github.com/chatty/chatty was verified as official when first introduced to the cask
-  url "https://github.com/chatty/chatty/releases/download/v#{version}/Chatty_#{version}.zip"
-  appcast 'https://github.com/chatty/chatty/releases.atom',
-          checkpoint: '7c3a3fcdc7587ff38c8fab9634a8fee70cf80afe830a4870d9a83ca06e2e1454'
-  name 'Chatty'
-  homepage 'https://chatty.github.io/'
+  url "https://github.com/chatty/chatty/releases/download/v#{version}/Chatty_#{version}.zip",
+      verified: "github.com/chatty/chatty/"
+  name "Chatty"
+  desc "Twitch chat client"
+  homepage "https://chatty.github.io/"
 
-  suite 'Chatty'
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  suite "Chatty"
 
   preflight do
     # There is no sub-folder in the ZIP; the root *is* the folder
-    FileUtils.mv(staged_path.children, staged_path.join('Chatty').tap(&:mkpath))
+    FileUtils.mv(staged_path.children, staged_path.join("Chatty").tap(&:mkpath))
   end
 
-  zap trash: '~/.chatty'
+  zap trash: "~/.chatty"
 
   caveats do
-    depends_on_java('7+')
+    depends_on_java "7+"
   end
 end

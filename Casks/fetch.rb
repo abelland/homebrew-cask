@@ -1,10 +1,16 @@
-cask 'fetch' do
-  version '5.7.6'
-  sha256 '0687113cd0b94784a5cd6c1f9f609cada175aac0163f3bf104305e68da847e16'
+cask "fetch" do
+  version "5.8.2,5.8.1354"
+  sha256 "839a49e2e820b0bb6987a273fa18b0aaae2d6cd8b5aac5b7d41cd018d5e74d68"
 
-  url "http://fetchsoftworks.com/fetch/download/Fetch_#{version}.dmg?direct=1"
-  name 'Fetch'
-  homepage 'https://fetchsoftworks.com/fetch/'
+  url "https://fetchsoftworks.com/fetch/download/Fetch_#{version.before_comma}.zip"
+  name "Fetch"
+  desc "File transfer client"
+  homepage "https://fetchsoftworks.com/fetch/"
 
-  app 'Fetch.app'
+  livecheck do
+    url "https://updates.fetchsoftworks.com/list/fetch-#{version.major}K0-release.xml"
+    strategy :sparkle
+  end
+
+  app "Fetch.app"
 end

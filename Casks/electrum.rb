@@ -1,13 +1,25 @@
-cask 'electrum' do
-  version '3.0.2'
-  sha256 'e40faa222a91c2813d9ccb190025ad4bd3a565c6aa9fe149c34962294544ebfb'
+cask "electrum" do
+  version "4.1.4"
+  sha256 "2b9d06a881bc76cc521c60e8bb5ec25cd522b222b1afdbc57849f51ff682999e"
 
   url "https://download.electrum.org/#{version}/electrum-#{version}.dmg"
-  appcast 'https://github.com/spesmilo/electrum/releases.atom',
-          checkpoint: '494dae9cd3da494d5870df076a1605c85145452d900af0ff5f333a4aaf071576'
-  name 'Electrum'
-  homepage 'https://electrum.org/'
-  gpg "#{url}.asc", key_id: '6694d8de7be8ee5631bed9502bd5824b7f9470e6'
+  name "Electrum"
+  desc "Bitcoin thin client"
+  homepage "https://electrum.org/"
 
-  app 'Electrum.app'
+  livecheck do
+    url "https://github.com/spesmilo/electrum"
+    strategy :github_latest
+  end
+
+  depends_on macos: ">= :high_sierra"
+
+  app "Electrum.app"
+
+  zap trash: [
+    "~/.electrum",
+    "~/Library/Preferences/Electrum.plist",
+    "~/Library/Preferences/org.org.pythonmac.unspecified.Electrum.plist",
+    "~/Library/Saved Application State/Electrum.savedState",
+  ]
 end

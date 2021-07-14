@@ -1,12 +1,16 @@
-cask 'xnviewmp' do
-  version :latest
+cask "xnviewmp" do
+  version "0.98.4"
   sha256 :no_check
 
-  url 'http://download.xnview.com/XnViewMP-mac.tgz'
-  name 'XnViewMP'
-  homepage 'http://www.xnview.com/'
+  url "https://download.xnview.com/XnViewMP-mac.dmg"
+  name "XnViewMP"
+  desc "Photo viewer, image manager, image resizer and more"
+  homepage "https://www.xnview.com/"
 
-  auto_updates true
+  livecheck do
+    url :url
+    strategy :extract_plist
+  end
 
-  app 'XnViewMP.app'
+  app "XnViewMP.app"
 end

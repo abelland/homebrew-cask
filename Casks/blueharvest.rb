@@ -1,12 +1,27 @@
-cask 'blueharvest' do
-  version '6.4.2'
-  sha256 '5d2551a04b71f61cd7a14b9eac1b3950e0d64f1b3dd47a0d731d8be3351332cb'
+cask "blueharvest" do
+  version "8.0.10"
+  sha256 "744fd728803860f62d4dcb79d5b5187effbebb4d94e9ffee18a5d4d398625a3a"
 
-  url "http://zeroonetwenty.com/downloads/BlueHarvest#{version.no_dots}.dmg"
-  appcast "https://cp37.ezyreg.com/~zeroonet/downloads/versioninfo/sparkle/blueharvest#{version.major}.xml",
-          checkpoint: 'c08fa3242f5018c940c4b6df4fc6fdc86bb1cbaedfc6e09dbcfc86a3f9c5d61c'
-  name 'BlueHarvest'
-  homepage 'http://zeroonetwenty.com/blueharvest/'
+  url "https://zeroonetwenty.com/blueharvest/downloads/BlueHarvest#{version.no_dots}.dmg"
+  name "BlueHarvest"
+  desc "Remove metadata files from external drives"
+  homepage "https://zeroonetwenty.com/blueharvest/"
 
-  app 'BlueHarvest.app'
+  livecheck do
+    url "https://zeroonetwenty.com/blueharvest/release-notes.html"
+    regex(/>\s*Version\s+(\d+(?:\.\d+)+)/i)
+  end
+
+  depends_on macos: ">= :catalina"
+
+  app "BlueHarvest.app"
+
+  uninstall delete:    "/Library/PrivilegedHelperTools/com.zeroonetwenty.BlueHarvestHelper#{version.major}",
+            launchctl: "com.zeroonetwenty.BlueHarvestHelper#{version.major}",
+            quit:      "com.zeroonetwenty.BlueHarvest5"
+
+  zap trash: [
+    "~/Library/Caches/com.zeroonetwenty.BlueHarvest5",
+    "~/Library/Preferences/com.zeroonetwenty.BlueHarvest5.plist",
+  ]
 end

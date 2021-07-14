@@ -1,18 +1,24 @@
-cask 'mongodb-compass' do
-  version '1.10.8'
-  sha256 'e2aff6f4faa0983f9ece83977cb44234a45cf03cdc5fe1a0aff5f8570a20a13d'
+cask "mongodb-compass" do
+  version "1.27.1"
+  sha256 "37d11bf9547a8c5300f827c49234d9bd1f678bfb2919982c99104d3fe1442bdb"
 
   url "https://downloads.mongodb.com/compass/mongodb-compass-#{version}-darwin-x64.dmg"
-  name 'MongoDB Compass'
-  homepage 'https://www.mongodb.com/products/compass'
+  name "MongoDB Compass"
+  desc "Explore and manipulate your MongoDB data"
+  homepage "https://www.mongodb.com/products/compass"
 
-  app 'MongoDB Compass.app'
+  livecheck do
+    url "https://info-mongodb-com.s3.amazonaws.com/com-download-center/compass.json"
+    regex(/"version"\s*:\s*"(\d+(?:\.\d+)+)\s*\(Stable/i)
+  end
+
+  app "MongoDB Compass.app"
 
   zap trash: [
-               '~/Library/Application Support/MongoDB Compass',
-               '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.mongodb.compass.sfl*',
-               '~/Library/Caches/MongoDB Compass/',
-               '~/Library/Preferences/com.mongodb.compass.plist',
-               '~/Library/Saved Application State/com.mongodb.compass.savedState',
-             ]
+    "~/Library/Application Support/MongoDB Compass",
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.mongodb.compass.sfl*",
+    "~/Library/Caches/MongoDB Compass/",
+    "~/Library/Preferences/com.mongodb.compass.plist",
+    "~/Library/Saved Application State/com.mongodb.compass.savedState",
+  ]
 end

@@ -1,19 +1,38 @@
-cask 'cutter' do
-  version '1.0'
-  sha256 '5023c0d36c1f60ea28b35fd2c45867f4944f2653dfb41fbd3cd2378d6b40bf7b'
+cask "cutter" do
+  version "2.0.2"
+  sha256 "18df2677ebe016e77313fb2975e4a7be7551ade1878684e968ec7267b01a9e2a"
 
-  # github.com/radareorg/cutter was verified as official when first introduced to the cask
-  url "https://github.com/radareorg/cutter/releases/download/v#{version}/cutter.dmg"
-  appcast 'https://github.com/radareorg/cutter/releases.atom',
-          checkpoint: '8200f38b88f86b2e798ce227b038e6a6eeb4f6a864b822fabd5dce700de0099d'
-  name 'Cutter'
-  homepage 'https://radare.org/cutter/'
+  url "https://github.com/rizinorg/cutter/releases/download/v#{version}/Cutter-v#{version}-x64.macOS.dmg",
+      verified: "github.com/rizinorg/cutter/"
+  name "Cutter"
+  desc "Reverse engineering platform powered by Rizin"
+  homepage "https://cutter.re/"
 
-  app 'cutter.app'
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "Cutter.app"
+  # shim script (https://github.com/Homebrew/homebrew-cask/issues/18809)
+  shimscript = "#{staged_path}/cutter.wrapper.sh"
+  binary shimscript, target: "cutter"
+
+  preflight do
+    IO.write shimscript, <<~EOS
+      #!/bin/sh
+      '#{appdir}/Cutter.app/Contents/MacOS/Cutter' "$@"
+    EOS
+  end
 
   zap trash: [
-               '~/Library/Preferences/com.cutter.cutter.plist*',
-               '~/Library/Preferences/test.cutter.plist',
-               '~/Library/Saved Application State/test.cutter.savedState',
-             ]
+    "~/.config/rizin",
+    "~/.local/share/rizin",
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/re.rizin.cutter.sfl*",
+    "~/Library/Application Support/rizin",
+    "~/Library/Preferences/re.rizin.cutter.plist",
+    "~/Library/Saved Application State/re.rizin.cutter.savedState",
+  ]
 end

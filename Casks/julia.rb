@@ -1,15 +1,20 @@
-cask 'julia' do
-  version '0.6.1'
-  sha256 '600c981780e5c4248e826db8a2e21f73063f4bc775fc66bb482235627f15993a'
+cask "julia" do
+  version "1.6.1"
+  sha256 "ed359fbc76ca5917113dae836d2db3feeeaca0758238549380c19b95697ffee1"
 
-  url "https://julialang-s3.julialang.org/bin/osx/x64/#{version.major_minor}/julia-#{version}-osx10.7+.dmg"
-  name 'Julia'
-  homepage 'https://julialang.org/'
+  url "https://julialang-s3.julialang.org/bin/mac/x64/#{version.major_minor}/julia-#{version}-mac64.dmg"
+  name "Julia"
+  desc "Programming language for technical computing"
+  homepage "https://julialang.org/"
 
-  depends_on macos: '>= :mountain_lion'
+  livecheck do
+    url "https://github.com/JuliaLang/julia"
+    strategy :git
+    regex(/^v?(\d+(?:\.\d+)*)$/)
+  end
 
   app "Julia-#{version.major_minor}.app"
   binary "#{appdir}/Julia-#{version.major_minor}.app/Contents/Resources/julia/bin/julia"
 
-  zap trash: '~/.julia'
+  zap trash: "~/.julia"
 end

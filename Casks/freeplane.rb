@@ -1,12 +1,29 @@
-cask 'freeplane' do
-  version '1.6.10'
-  sha256 '9635d901e23a8c547956e2027337a44605738d66fd9842f4ec0e0f46683664e6'
+cask "freeplane" do
+  version "1.9.3"
 
-  url "https://downloads.sourceforge.net/freeplane/freeplane%20stable/freeplane_app_jre-#{version}.dmg"
-  appcast 'https://sourceforge.net/projects/freeplane/rss?path=/freeplane%20stable',
-          checkpoint: '49b21ea5e5a65bf06f8676b3b994451316ccae1f505c0d97c621e8e37d039952'
-  name 'Freeplane'
-  homepage 'http://freeplane.sourceforge.net/'
+  if Hardware::CPU.intel?
+    sha256 "46cdd871cb7a45061626404553580362ae8319cc1c8e3d40be04364aa6815f24"
 
-  app 'Freeplane.app'
+    url "https://downloads.sourceforge.net/freeplane/Freeplane-#{version}-intel.dmg",
+        verified: "downloads.sourceforge.net/freeplane/"
+  else
+    sha256 "981f0ca1f9d0825785a01672eb318e1922f2318d8c01f29cc0a0488078e31d42"
+
+    url "https://downloads.sourceforge.net/freeplane/Freeplane-#{version}-apple.dmg",
+        verified: "downloads.sourceforge.net/freeplane/"
+  end
+
+  name "Freeplane"
+  desc "Mind mapping and knowledge management software"
+  homepage "https://freeplane.sourceforge.io/"
+
+  livecheck do
+    url "https://sourceforge.net/projects/freeplane/rss?path=/freeplane%20stable"
+    strategy :page_match
+    regex(%r{stable/Freeplane[._-]v?(\d+(?:\.\d+)+)(?:[._-]apple)?\.dmg}i)
+  end
+
+  app "Freeplane.app"
+
+  zap trash: "~/Library/Saved Application State/org.freeplane.launcher.savedState"
 end

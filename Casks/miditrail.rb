@@ -1,13 +1,20 @@
-cask 'miditrail' do
-  version '1.2.3,68138'
-  sha256 '6be8c1928ae71d3713d884dbaa9e18e243f1c03ae4840bb3936321baf287e6f5'
+cask "miditrail" do
+  version "1.3.3,75216"
+  sha256 "d67b18790b0ee486b2b2e590a9227940cdf5eca2eb27dcb24df0e85fff3f47b5"
 
-  # dl.osdn.jp/miditrail was verified as official when first introduced to the cask
-  url "http://dl.osdn.jp/miditrail/#{version.after_comma}/MIDITrail-Ver.#{version.before_comma}-macOS.zip"
-  appcast 'https://ja.osdn.net/projects/miditrail/releases/rss',
-          checkpoint: 'a55326f5d7b4a7ed8cc9b8a46feae754343e9e52e6b0e390be4624ddf4819fbe'
-  name 'MIDITrail'
-  homepage 'https://osdn.net/projects/miditrail/'
+  url "https://acc.dl.osdn.jp/miditrail/#{version.after_comma}/MIDITrail-Ver.#{version.before_comma}-macOS.zip",
+      verified: "acc.dl.osdn.jp/miditrail/"
+  name "MIDITrail"
+  desc "MIDI player which provides 3D visualization of MIDI data sets"
+  homepage "https://osdn.net/projects/miditrail/"
 
-  app 'MIDITrail/MIDITrail.app'
+  livecheck do
+    url "https://ja.osdn.net/projects/miditrail/releases/rss"
+    strategy :page_match do |page|
+      page.scan(%r{url=.+downloads/(\d+)/MIDITrail[._-]Ver[._-](\d+(?:\.\d+)+)[._-]macOS\.zip}i)
+          .map { |matches| "#{matches[1]},#{matches[0]}" }
+    end
+  end
+
+  app "MIDITrail/MIDITrail.app"
 end

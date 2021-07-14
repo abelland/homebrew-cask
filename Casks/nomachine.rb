@@ -1,28 +1,27 @@
-cask 'nomachine' do
-  version '6.0.66_2'
-  sha256 'e0be017287821ee88470534cf13a6b3e4855e8664ddf45cfc5a9e54066655d8c'
+cask "nomachine" do
+  version "7.5.2_1"
+  sha256 "bf3e475976082ba674211a8d5d0c54a3032193b94f5ed35cf8346a7f1d48923e"
 
-  url "http://download.nomachine.com/download/#{version.major_minor}/MacOSX/nomachine_#{version}.dmg"
-  name 'NoMachine'
-  homepage 'https://www.nomachine.com/'
+  url "https://download.nomachine.com/download/#{version.major_minor}/MacOSX/nomachine_#{version}.dmg"
+  name "NoMachine"
+  desc "Remote desktop software"
+  homepage "https://www.nomachine.com/"
 
-  pkg 'NoMachine.pkg'
+  livecheck do
+    url "https://www.nomachine.com/download/download&id=7"
+    regex(/nomachine[._-]v?(\d+(?:\.\d+)*_\d+)\.dmg/i)
+  end
 
-  # a launchctl job ordinarily manages uninstall once the app bundle is removed
+  pkg "NoMachine.pkg"
 
-  uninstall delete: '/Applications/NoMachine.app'
-
-  # however, we duplicate the uninstall process manually in the zap stanza just in case
-  zap early_script: {
-                      executable: '/bin/rm',
-                      args:       ['-f', '--', '/Library/Application Support/NoMachine/nxuninstall.sh'],
-                    },
-      quit:         'com.nomachine.nxdock',
-      kext:         [
-                      'com.nomachine.driver.nxau',
-                      'com.nomachine.driver.nxtun',
-                      'com.nomachine.kext.nxfs',
-                    ],
-      pkgutil:      'com.nomachine.nomachine.NoMachine.*',
-      launchctl:    'com.nomachine.uninstall'
+  # A launchctl job ordinarily manages uninstall once the app bundle is removed
+  # To ensure it ran, verify if /Library/Application Support/NoMachine/nxuninstall.sh no longer exists
+  uninstall delete:    "/Applications/NoMachine.app",
+            pkgutil:   "com.nomachine.nomachine.NoMachine-*.pkg",
+            launchctl: [
+              "com.nomachine.localnxserver",
+              "com.nomachine.nxserver",
+              "com.nomachine.server",
+              "com.nomachine.uninstall",
+            ]
 end

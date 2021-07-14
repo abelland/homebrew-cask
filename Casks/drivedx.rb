@@ -1,10 +1,16 @@
-cask 'drivedx' do
-  version '1.6.0'
-  sha256 'ddcc2717fa069ffd198f52044594ed71a2a00865ee3aa1ceedc4fdcfb6496146'
+cask "drivedx" do
+  version "1.11.0,730"
+  sha256 "e72c18695916cc99ce10dd08b91d7c5d6d799ca471fef8cbabf79fb3a3d93bef"
 
-  url "https://binaryfruit.com/download/drivedx/mac/1/bin/DriveDx.#{version}.zip"
-  name 'DriveDX'
-  homepage 'https://binaryfruit.com/drivedx'
+  url "https://download.binaryfruit.com/drivedx/mac/#{version.major}/DriveDx.#{version.before_comma}.zip"
+  name "DriveDX"
+  desc "Drive health diagnostic & monitoring tool"
+  homepage "https://binaryfruit.com/drivedx"
 
-  app 'DriveDX.app'
+  livecheck do
+    url "https://binaryfruit.com/download/drivedx/mac/#{version.major}/updates/?appcast&appName=DriveDxMac"
+    strategy :sparkle
+  end
+
+  app "DriveDx.app"
 end

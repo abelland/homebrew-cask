@@ -1,12 +1,27 @@
-cask 'yacreader' do
-  version '8.5.0'
-  sha256 '13bfd484fb1e6e1ff29e9e2e63e2485fa9415f4f2d5186a5fc90c45cef394ef2'
+cask "yacreader" do
+  version "9.8.2.2106195"
+  sha256 "19c1d566fe080b9d2350812119ce3d8d28a6d20a6e1f9c3d43d59c89823a0ea1"
 
-  # bitbucket.org/luisangelsm/yacreader was verified as official when first introduced to the cask
-  url "https://bitbucket.org/luisangelsm/yacreader/downloads/YACReader-#{version}-MacOSX-Intel.dmg"
-  name 'YACReader'
-  homepage 'http://www.yacreader.com/'
+  url "https://github.com/YACReader/yacreader/releases/download/#{version.major_minor_patch}/YACReader-#{version}.MacOSX-Intel.dmg",
+      verified: "github.com/YACReader/yacreader/"
+  name "YACReader"
+  desc "Comic reader"
+  homepage "https://www.yacreader.com/"
 
-  app 'YACReader.app'
-  app 'YACReaderLibrary.app'
+  livecheck do
+    url "https://github.com/YACReader/yacreader/releases"
+    strategy :page_match
+    regex(%r{href=.*?/YACReader[._-]v?(\d+(?:\.\d+)+)[._-]MacOSX[._-]Intel\.dmg}i)
+  end
+
+  app "YACReader.app"
+  app "YACReaderLibrary.app"
+
+  zap trash: [
+    "~/Library/Application Support/YACReader",
+    "~/Library/Preferences/com.yacreader.YACReader.plist",
+    "~/Library/Preferences/com.yacreader.YACReaderLibrary.plist",
+    "~/Library/Saved Application State/com.yacreader.YACReader.savedState",
+    "~/Library/Saved Application State/com.yacreader.YACReaderLibrary.savedState",
+  ]
 end

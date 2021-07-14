@@ -1,14 +1,15 @@
-cask 'shapes' do
-  version '4.9'
-  sha256 'd457fb39c0f64987d17f294a6cd87c14e65f170fc8a3bae9678026bee70f84fa'
+cask "shapes" do
+  version "4.9,4908"
+  sha256 "9b48bf8bb1d224b8ee85ee3f0746f66aa436544eb4ed6d0ac6bfd5264bb4119c"
 
-  url "http://shapesapp.com/dist/Shapes_#{version}.zip"
-  appcast "http://shapesapp.com/appcast/shapes#{version.major}.rss",
-          checkpoint: 'b373ee79ef16e940053d500c6f622ac8aaa2dd09d3fffbf90b3b3e33d3aa8c8c'
-  name 'Shapes'
-  homepage 'http://shapesapp.com/'
+  url "https://shapesapp.com/dist/Shapes_#{version.before_comma}.zip"
+  name "Shapes"
+  homepage "https://shapesapp.com/"
 
-  depends_on macos: '>= :mountain_lion'
+  livecheck do
+    url "https://shapesapp.com/appcast/shapes#{version.major}.rss"
+    strategy :sparkle
+  end
 
-  app 'Shapes.app'
+  app "Shapes.app"
 end

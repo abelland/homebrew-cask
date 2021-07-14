@@ -1,10 +1,27 @@
-cask 'ocenaudio' do
-  version :latest
+cask "ocenaudio" do
+  version "3.10.9"
   sha256 :no_check
 
-  url 'https://www.ocenaudio.com/downloads/ocenaudio64.dmg'
-  name 'ocenaudio'
-  homepage 'https://www.ocenaudio.com/en'
+  if MacOS.version <= :high_sierra
+    url "https://www.ocenaudio.com/downloads/index.php/ocenaudio_sierra.dmg"
+  elsif MacOS.version <= :catalina
+    url "https://www.ocenaudio.com/downloads/index.php/ocenaudio_mojave.dmg"
+  elsif Hardware::CPU.intel?
+    url "https://www.ocenaudio.com/downloads/index.php/ocenaudio_bigsur.dmg"
+  else
+    url "https://www.ocenaudio.com/downloads/index.php/ocenaudio_bigsur_arm64.dmg"
+  end
 
-  app 'ocenaudio.app'
+  name "ocenaudio"
+  desc "Audio editor"
+  homepage "https://www.ocenaudio.com/en"
+
+  livecheck do
+    url "https://www.ocenaudio.com/downloads/index.php/ocenaudio_bigsur.dmg"
+    strategy :header_match
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "ocenaudio.app"
 end

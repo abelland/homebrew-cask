@@ -1,11 +1,17 @@
-cask 'cellprofiler' do
-  version :latest
-  sha256 :no_check
+cask "cellprofiler" do
+  version "4.2.0"
+  sha256 "d111ad4d389da6a442eaac085ec058937c0bb7cef62ea55ba1b1e1125907f250"
 
-  # cellprofiler-org.s3.amazonaws.com was verified as official when first introduced to the cask
-  url 'https://cellprofiler-org.s3.amazonaws.com/CellProfiler.dmg'
-  name 'CellProfiler'
-  homepage 'http://cellprofiler.org/'
+  url "https://cellprofiler-releases.s3.amazonaws.com/CellProfiler-macOS-#{version}.zip",
+      verified: "cellprofiler-releases.s3.amazonaws.com/"
+  name "CellProfiler"
+  desc "Open-source application for biological image analysis"
+  homepage "https://cellprofiler.org/"
 
-  app 'CellProfiler.app'
+  livecheck do
+    url "https://github.com/CellProfiler/CellProfiler"
+    strategy :github_latest
+  end
+
+  app "CellProfiler.app"
 end

@@ -1,15 +1,28 @@
-cask 'screenflow' do
-  version '7.1.1'
-  sha256 '06b880cbff146da8d3cacbc5b78d2d1cfbda99e01b8314204041816461c65f18'
+cask "screenflow" do
+  version "10.0.2,31833"
+  sha256 "c2d4dec040ffd3bfbb6649cc751731844fa4c3d2848e906e91d2471ce370d406"
 
-  url "https://www.telestream.net/download-files/screenflow/#{version.major_minor.dots_to_hyphens}/ScreenFlow-#{version}.dmg"
-  appcast 'https://www.telestream.net/updater/screenflow/appcast.xml',
-          checkpoint: '2ee00d2886035bfc23078ce6d4856a6bc6fe12bb1263289ce51fbca90984b46e'
-  name 'ScreenFlow'
-  homepage 'https://www.telestream.net/screenflow/'
+  url "https://www.telestream.net/download-files/screenflow/#{version.before_comma.major_minor.dots_to_hyphens}/ScreenFlow-#{version.before_comma}.dmg"
+  name "ScreenFlow"
+  desc "Screen recording and video editing software"
+  homepage "https://www.telestream.net/screenflow/"
+
+  livecheck do
+    url "https://www.telestream.net/updater/screenflow/appcast.xml"
+    strategy :sparkle
+  end
 
   auto_updates true
-  depends_on macos: '>= :yosemite'
+  depends_on macos: ">= :catalina"
 
-  app 'ScreenFlow.app'
+  app "ScreenFlow.app"
+
+  zap trash: [
+    "~/Library/Application Support/ScreenFlow",
+    "~/Library/Caches/net.telestream.screenflow9",
+    "~/Library/Cookies/net.telestream.screenflow9.binarycookies",
+    "~/Library/Preferences/WSG985FR47.net.telestream.screenflowhelper.plist",
+    "~/Library/Preferences/net.telestream.screenflow.globallibrary.plist",
+    "~/Library/Preferences/net.telestream.screenflow9.plist",
+  ]
 end

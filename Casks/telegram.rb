@@ -1,25 +1,32 @@
-cask 'telegram' do
-  version '3.6.1-110227'
-  sha256 'b3fd1c7aa8b52e2402bc51391d6091ac7daed5b92773ef2201859cb8013f5274'
+cask "telegram" do
+  version "7.8.218215"
+  sha256 "bf6755d941a78f36ba7bdc0d2d2d8fa44818c49d86078f6209a50fc2cd4d5be1"
 
   url "https://osx.telegram.org/updates/Telegram-#{version}.app.zip"
-  appcast 'https://osx.telegram.org/updates/versions.xml',
-          checkpoint: '8f5337dc0173a1166265807e00961d0461aad7e40dac4c2a4a16ce71f3d4d660'
-  name 'Telegram for macOS'
-  homepage 'https://macos.telegram.org/'
+  name "Telegram for macOS"
+  desc "Messaging app with a focus on speed and security"
+  homepage "https://macos.telegram.org/"
+
+  livecheck do
+    url "https://osx.telegram.org/updates/versions.xml"
+    strategy :page_match
+    regex(/Telegram-(\d+(?:\.\d+)*)\.app\.zip/i)
+  end
 
   auto_updates true
-  depends_on macos: '>= :el_capitan'
+  depends_on macos: ">= :el_capitan"
 
-  app 'Telegram.app'
+  app "Telegram.app"
 
   zap trash: [
-               '~/Library/Application Scripts/ru.keepcoder.Telegram',
-               '~/Library/Application Scripts/ru.keepcoder.Telegram.TelegramShare',
-               '~/Library/Containers/ru.keepcoder.Telegram',
-               '~/Library/Containers/ru.keepcoder.Telegram.TelegramShare',
-               '~/Library/Group Containers/*.ru.keepcoder.Telegram',
-               '~/Library/Preferences/ru.keepcoder.Telegram.plist',
-               '~/Library/Saved Application State/ru.keepcoder.Telegram.savedState',
-             ]
+    "~/Library/Application Scripts/ru.keepcoder.Telegram",
+    "~/Library/Application Scripts/ru.keepcoder.Telegram.TelegramShare",
+    "~/Library/Caches/ru.keepcoder.Telegram",
+    "~/Library/Containers/ru.keepcoder.Telegram",
+    "~/Library/Containers/ru.keepcoder.Telegram.TelegramShare",
+    "~/Library/Cookies/ru.keepcoder.Telegram.binarycookies",
+    "~/Library/Group Containers/*.ru.keepcoder.Telegram",
+    "~/Library/Preferences/ru.keepcoder.Telegram.plist",
+    "~/Library/Saved Application State/ru.keepcoder.Telegram.savedState",
+  ]
 end

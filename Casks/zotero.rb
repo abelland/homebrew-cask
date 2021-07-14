@@ -1,14 +1,26 @@
-cask 'zotero' do
-  version '5.0.30'
-  sha256 'c0e4619705c7532525c407b46d0f8c171feab8fb1b35ae2ae5f473d17a56afe6'
+cask "zotero" do
+  version "5.0.96.2"
+  sha256 "b9993191cbf89d62b9be543ed7fab933402113cee9b30d3eded487944619309e"
 
   url "https://download.zotero.org/client/release/#{version}/Zotero-#{version}.dmg"
-  appcast 'https://github.com/zotero/zotero/releases.atom',
-          checkpoint: '0c630534ced0107932acfcac96a9abebc0d7c0602a575f276ae2ad42d73f44af'
-  name 'Zotero'
-  homepage 'https://www.zotero.org/'
+  name "Zotero"
+  desc "Collect, organize, cite, and share research sources"
+  homepage "https://www.zotero.org/"
+
+  livecheck do
+    url "https://www.zotero.org/download/"
+    strategy :page_match
+    regex(/standaloneVersions.*?"mac"\s*:\s*"(\d+(?:\.\d+)*)"/i)
+  end
 
   auto_updates true
 
-  app 'Zotero.app'
+  app "Zotero.app"
+
+  zap trash: [
+    "~/Library/Application Support/Zotero",
+    "~/Library/Caches/Zotero",
+    "~/Library/Preferences/org.zotero.zotero.plist",
+    "~/Library/Saved Application State/org.zotero.zotero.savedState",
+  ]
 end

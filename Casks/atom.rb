@@ -1,32 +1,33 @@
-cask 'atom' do
-  version '1.22.1'
-  sha256 'cf06b74ac106a2b11a5d7ea346a3107923bde4469cd9fcb91b2726ad850f12b4'
+cask "atom" do
+  version "1.57.0"
+  sha256 "f6d080bdba81c486998691dda1400f1161d00cc2cf76097489379553a263d7ba"
 
-  # github.com/atom/atom was verified as official when first introduced to the cask
-  url "https://github.com/atom/atom/releases/download/v#{version}/atom-mac.zip"
-  appcast 'https://github.com/atom/atom/releases.atom',
-          checkpoint: 'f27c87798297b7b32daf08e6e8f11f57eb6ae168c1f491762aa174d06acd6739'
-  name 'Github Atom'
-  homepage 'https://atom.io/'
+  url "https://github.com/atom/atom/releases/download/v#{version}/atom-mac.zip",
+      verified: "github.com/atom/atom/"
+  name "Github Atom"
+  desc "Text editor"
+  homepage "https://atom.io/"
 
   auto_updates true
-  depends_on macos: '>= :mountain_lion'
 
-  app 'Atom.app'
+  app "Atom.app"
   binary "#{appdir}/Atom.app/Contents/Resources/app/apm/bin/apm"
-  binary "#{appdir}/Atom.app/Contents/Resources/app/atom.sh", target: 'atom'
+  binary "#{appdir}/Atom.app/Contents/Resources/app/atom.sh", target: "atom"
 
   zap trash: [
-               '~/.atom',
-               '~/Library/Application Support/Atom',
-               '~/Library/Application Support/ShipIt_stderr.log',
-               '~/Library/Application Support/ShipIt_stdout.log',
-               '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.github.atom.sfl*',
-               '~/Library/Application Support/com.github.atom.ShipIt',
-               '~/Library/Caches/com.github.atom',
-               '~/Library/Caches/com.github.atom.ShipIt',
-               '~/Library/Preferences/com.github.atom.helper.plist',
-               '~/Library/Preferences/com.github.atom.plist',
-               '~/Library/Saved Application State/com.github.atom.savedState',
-             ]
+    "~/.atom",
+    "~/Library/Application Support/Atom",
+    "~/Library/Application Support/ShipIt_stderr.log",
+    "~/Library/Application Support/ShipIt_stdout.log",
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.github.atom.sfl*",
+    "~/Library/Application Support/com.github.atom.ShipIt",
+    "~/Library/Caches/com.github.atom",
+    "~/Library/Caches/com.github.atom.ShipIt",
+    "~/Library/Logs/Atom",
+    "~/Library/Preferences/ByHost/com.github.atom.ShipIt.*.plist",
+    "~/Library/Preferences/com.github.atom.helper.plist",
+    "~/Library/Preferences/com.github.atom.plist",
+    "~/Library/Saved Application State/com.github.atom.savedState",
+    "~/Library/WebKit/com.github.atom",
+  ]
 end

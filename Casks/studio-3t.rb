@@ -1,12 +1,18 @@
-cask 'studio-3t' do
-  version '5.6.4'
-  sha256 '11b78151abd5bbf0fddd3f39209bdf61777af3e29d5bd676cc008ad1a25539ea'
+cask "studio-3t" do
+  version "2021.3.1"
+  sha256 "78821b784ae3608aac491b3e7e9570cb68277f44bd1876e0b1d0442c1d56832d"
 
   url "https://download.studio3t.com/studio-3t/mac/#{version}/Studio-3T.dmg"
-  appcast 'http://files.studio3t.com/changelog/changelog.txt',
-          checkpoint: '18c1baa32e9e91a5a7dd27ac990371d617ce34e9039e693f05dd6c7ca24e94e1'
-  name 'Studio 3T'
-  homepage 'https://studio3t.com/'
+  name "Studio 3T"
+  desc "IDE, client, and GUI for MongoDB"
+  homepage "https://studio3t.com/"
 
-  app 'Studio 3T.app'
+  livecheck do
+    url "https://studio3t.com/download-thank-you/?OS=osx"
+    regex(%r{/v?(\d+(?:\.\d+)+)/Studio[._-]?3T\.dmg}i)
+  end
+
+  auto_updates true
+
+  app "Studio 3T.app"
 end

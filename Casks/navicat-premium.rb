@@ -1,12 +1,23 @@
-cask 'navicat-premium' do
-  version '12.0.19'
-  sha256 '3734226e32fb79f660326f6e0d37404dad87e432dd9cbd5f0a2cd1346835675d'
+cask "navicat-premium" do
+  version "15.0.28"
+  sha256 :no_check
 
-  url "http://download.navicat.com/download/navicat#{version.major_minor.no_dots}_premium_en.dmg"
-  appcast 'https://www.navicat.com/en/products/navicat-premium-release-note',
-          checkpoint: '49f2c18d7c7065a2ad4a498b3208ec1ad4b36e733dcf0e42e9920d9bcd068f70'
-  name 'Navicat Premium'
-  homepage 'https://www.navicat.com/products/navicat-premium'
+  language "zh-CN" do
+    url "https://download.navicat.com.cn/download/navicat#{version.major_minor.no_dots}_premium_cs.dmg"
+    homepage "https://www.navicat.com.cn/products/navicat-premium"
+  end
+  language "en", default: true do
+    url "http://download.navicat.com/download/navicat#{version.major_minor.no_dots}_premium_en.dmg"
+    homepage "https://www.navicat.com/products/navicat-premium"
+  end
 
-  app 'Navicat Premium.app'
+  name "Navicat Premium"
+  desc "Database administration and development tool"
+
+  livecheck do
+    url "https://updater.navicat.com/mac/navicat_updates.php?appName=Navicat%20Premium&appLang=en"
+    strategy :sparkle
+  end
+
+  app "Navicat Premium.app"
 end

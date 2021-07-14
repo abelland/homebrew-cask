@@ -1,12 +1,17 @@
-cask 'chatology' do
-  version '1.1.2'
-  sha256 '133bd7c2d13bcad042b0c885d916edcf88073bfb2a0d340d1243184ca55e8370'
+cask "chatology" do
+  version "1.2.5"
+  sha256 "c47e8af749553e2c3b02b390b1d4d30fc2dec32cd7e01f85bc1699b770039a8a"
 
-  url "http://cdn.flexibits.com/Chatology_#{version}.zip"
-  appcast 'https://flexibits.com/chatology/appcast.php',
-          checkpoint: '5572a3834d8dbf929f111a3184824624e62b35f3346ed898c8d6b9b35014991f'
-  name 'Chatology'
-  homepage 'https://flexibits.com/chatology'
+  url "https://cdn.flexibits.com/Chatology_#{version}.zip"
+  name "Chatology"
+  desc "Chat manager and message search software"
+  homepage "https://flexibits.com/chatology"
 
-  app 'Chatology.app'
+  depends_on macos: ">= :el_capitan"
+
+  app "Chatology.app"
+
+  caveats do
+    discontinued
+  end
 end

@@ -1,12 +1,20 @@
-cask 'simpholders' do
-  version '2.2'
-  sha256 '0f12b0076f2bef08cd3129916a6fbe6f92bd7601a96bc787bfc0c5feda4b4d4a'
+cask "simpholders" do
+  version "3.0.12,2366"
+  sha256 "0f74633bd6bd9723063af0be550364882b93fbb5cd67bac6e2066083174e5f0d"
 
-  url "https://simpholders.com/site/assets/files/1968/simpholders_#{version.dots_to_underscores}.dmg"
-  appcast 'https://simpholders.com/releases/',
-          checkpoint: 'ea4bde230320d53d2180dc75110878f45e47b434e2a6a7c77e1e16c057f4b9bd'
-  name 'SimPholders'
-  homepage 'https://simpholders.com/'
+  url "https://simpholders.com/site/assets/files/#{version.after_comma}/simpholders_#{version.before_comma.dots_to_underscores}.dmg"
+  name "SimPholders"
+  homepage "https://simpholders.com/"
 
-  app 'SimPholders.app'
+  livecheck do
+    url "https://simpholders.com/latest/"
+    strategy :header_match do |headers|
+      match = headers["location"].match(%r{/(\d+)/simpholders_(\d+(?:_\d+)*).dmg}i)
+      "#{match[2].tr("_", ".")},#{match[1]}"
+    end
+  end
+
+  depends_on macos: ">= :catalina"
+
+  app "simpholders_#{version.before_comma.dots_to_underscores}.app", target: "SimPholders.app"
 end

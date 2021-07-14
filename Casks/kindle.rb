@@ -1,18 +1,28 @@
-cask 'kindle' do
-  version '48016'
-  sha256 '96acc8fed585c2759f6e001dac4ce91b276147f7866032d2890fac9614cf54e1'
+cask "kindle" do
+  version "1.31.60175"
+  sha256 "1d824e42aca1d665384185a04d0b484ff1013f46a573caa39a39c1e0f9457499"
 
-  # s3.amazonaws.com/kindleformac was verified as official when first introduced to the cask
-  url "https://s3.amazonaws.com/kindleformac/#{version}/KindleForMac-#{version}.dmg"
-  name 'Kindle for Mac'
-  homepage 'https://www.amazon.com/gp/digital/fiona/kcp-landing-page'
+  url "https://kindleformac.s3.amazonaws.com/#{version.patch}/KindleForMac-#{version}.dmg",
+      verified: "kindleformac.s3.amazonaws.com/"
+  name "Kindle for Mac"
+  desc "Interface for reading and syncing eBooks"
+  homepage "https://www.amazon.com/gp/digital/fiona/kcp-landing-page"
 
-  app 'Kindle.app'
+  livecheck do
+    url "https://www.amazon.com/kindlemacdownload/ref=klp_hz_mac"
+    strategy :header_match
+  end
+
+  app "Kindle.app"
+
+  uninstall delete: "/Library/Logs/DiagnosticReports/Kindle_*.diag"
 
   zap trash: [
-               '~/Library/Preferences/com.amazon.Kindle.plist',
-               '~/Library/Application Support/Kindle/',
-               '~/Library/Saved Application State/com.amazon.Kindle.savedState/',
-               '~/Library/Caches/com.amazon.Kindle-Crash-Reporter/',
-             ]
+    "~/Library/Application Support/Kindle",
+    "~/Library/Caches/com.amazon.Kindle",
+    "~/Library/Caches/com.amazon.Kindle-Crash-Reporter",
+    "~/Library/HTTPStorages/com.amazon.Kindle.binarycookies",
+    "~/Library/Preferences/com.amazon.Kindle.plist",
+    "~/Library/Saved Application State/com.amazon.Kindle.savedState",
+  ]
 end

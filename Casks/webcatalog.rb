@@ -1,22 +1,36 @@
-cask 'webcatalog' do
-  version '7.7.1'
-  sha256 '9cb35b381d66a8cdbdd8714ff7776c149f8ed529af0abcd5b1a25c0739c926ff'
+cask "webcatalog" do
+  version "35.0.0"
 
-  # github.com/webcatalog/desktop/releases/download/ was verified as official when first introduced to the cask
-  url "https://github.com/webcatalog/desktop/releases/download/v#{version}/WebCatalog-#{version}.dmg"
-  appcast 'https://github.com/webcatalog/desktop/releases.atom',
-          checkpoint: 'e4a8e11615e820f9abd5d1c1da2f6bf6ca9599c56f6a39dffcf272c7fca0de73'
-  name 'WebCatalog'
-  homepage 'https://webcatalog.io/download/mac'
+  if Hardware::CPU.intel?
+    sha256 "d7847abbc7058e0a1ef3b25a6bb47f73d3521cff8c871c78f707dc3f9104c687"
 
-  app 'WebCatalog.app'
+    url "https://github.com/webcatalog/webcatalog-app/releases/download/v#{version}/WebCatalog-#{version}.dmg",
+        verified: "github.com/webcatalog/webcatalog-app/"
+  else
+    sha256 "c866b1d2a650852c81af5224166f831d7a298c85e88b98a474bc1272fc40c706"
+
+    url "https://github.com/webcatalog/webcatalog-app/releases/download/v#{version}/WebCatalog-#{version}-arm64.dmg",
+        verified: "github.com/webcatalog/webcatalog-app/"
+  end
+
+  name "WebCatalog"
+  desc "Tool to run web apps like desktop apps"
+  homepage "https://webcatalog.app/"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  auto_updates true
+
+  app "WebCatalog.app"
 
   zap trash: [
-               '~/Library/Application Support/WebCatalog',
-               '~/Library/Cookies/com.webcatalog.app.binarycookies',
-               '~/Library/Preferences/WebCatalog_Alt.plist',
-               '~/Library/Preferences/com.webcatalog.app.helper.plist',
-               '~/Library/Preferences/com.webcatalog.app.plist',
-               '~/Library/Saved Application State/com.webcatalog.app.savedState',
-             ]
+    "~/Library/Application Support/WebCatalog",
+    "~/Library/Caches/com.webcatalog.jordan",
+    "~/Library/Caches/com.webcatalog.jordan.ShipIt",
+    "~/Library/Preferences/com.webcatalog.jordan.plist",
+    "~/Library/Saved Application State/com.webcatalog.jordan.savedState",
+  ]
 end

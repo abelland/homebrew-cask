@@ -1,15 +1,23 @@
-cask 'ui-browser' do
-  version '2.6.3'
-  sha256 '1a78045ab21da512f15f7203fa430cff61592aadb17cbdc0bc4aaf734412dac1'
+cask "ui-browser" do
+  version "3.0.2"
+  sha256 "a5695d3046a2230a0e56cbda68829802801d74afc39d4320161fef668b3a0376"
 
-  url "http://pfiddlesoft.com/uibrowser/downloads/UIBrowser#{version.no_dots}.dmg"
-  name 'UI Browser'
-  homepage 'http://pfiddlesoft.com/uibrowser/'
+  url "https://pfiddlesoft.com/uibrowser/downloads/UIBrowser#{version.no_dots}.dmg"
+  name "UI Browser"
+  desc "Assistant for Apple's Accessibility and AppleScript GUI scripting"
+  homepage "https://pfiddlesoft.com/uibrowser/"
 
-  app 'UI Browser.app'
+  livecheck do
+    url "https://pfiddlesoft.com/uibrowser/index-downloads.html"
+    regex(/href=.*?UI\s+Browser\s+(\d+(?:\.\d+)+)/i)
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "UI Browser.app"
 
   zap trash: [
-               '~/Library/Caches/com.apple.helpd/Generated/com.pfiddlesoft.uibrowser.help*',
-               '~/Library/Preferences/com.pfiddlesoft.uibrowser.plist',
-             ]
+    "~/Library/Caches/com.apple.helpd/Generated/com.pfiddlesoft.uibrowser.help*",
+    "~/Library/Preferences/com.pfiddlesoft.uibrowser.plist",
+  ]
 end

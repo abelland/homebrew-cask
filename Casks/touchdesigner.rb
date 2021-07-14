@@ -1,12 +1,18 @@
-cask 'touchdesigner' do
-  version '099.2017.7180'
-  sha256 'a2d0d1b50f431ba7587eeb99ebc0aa8c55b5d5d2c9b66f3c905551c62df53028'
+cask "touchdesigner" do
+  version "2021.13610"
+  sha256 "a4b66eb3231efd94e8dd972e42b38f7d403081767ce98b5fdbff719e12f30447"
 
-  url "https://www.derivative.ca/Builds/TouchDesigner#{version}.dmg"
-  appcast "https://www.derivative.ca/#{version.major}/Downloads/Default.asp",
-          checkpoint: '90aacc97f46bf0ab6d0bf0cd9c28a423e3adaf7fdf27d6464648f2bd040c5c71'
-  name 'Derivative TouchDesigner'
-  homepage 'https://www.derivative.ca/'
+  url "https://download.derivative.ca/TouchDesigner.#{version}.dmg"
+  name "Derivative TouchDesigner"
+  desc "Tool for creating dynamic digital art"
+  homepage "https://www.derivative.ca/"
 
-  app "TouchDesigner#{version.major}.app"
+  livecheck do
+    url "https://www.derivative.ca/download/"
+    regex(%r{href=.*?/TouchDesigner[._-]?v?(\d+(?:\.\d+)+)\.dmg}i)
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "TouchDesigner.app"
 end

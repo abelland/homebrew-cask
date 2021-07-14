@@ -1,23 +1,34 @@
-cask 'prey' do
-  version '1.7.2'
-  sha256 '4e46fd442ae97f360423848794ec94d019b56789eff7c7d16182e343907b81ba'
+cask "prey" do
+  version "1.9.12"
+  sha256 "f3d41367c4a39cda12b80df4c8c468878dab7fbaa64a389453ef45f02f74b526"
 
   url "https://downloads.preyproject.com/prey-client-releases/node-client/#{version}/prey-mac-#{version}-x64.pkg"
-  appcast 'https://github.com/prey/prey-node-client/releases.atom',
-          checkpoint: '601bd9d56b2e47f6344a18f34d1baf04a5561bed1548ec9d38f371211ab71813'
-  name 'Prey'
-  homepage 'https://www.preyproject.com/'
+  name "Prey"
+  desc "Anti-theft, data security, and management platform"
+  homepage "https://www.preyproject.com/"
+
+  livecheck do
+    url "https://github.com/prey/prey-node-client"
+    strategy :github_latest
+  end
 
   pkg "prey-mac-#{version}-x64.pkg"
 
-  uninstall pkgutil:   'com.prey.agent',
-            launchctl: 'com.prey.agent'
+  preflight do
+    ENV["API_KEY"] = ENV["HOMEBREW_PREY_SETUP_API_KEY"]
+  end
+
+  uninstall pkgutil:   "com.prey.agent",
+            launchctl: "com.prey.agent"
 
   caveats <<~EOS
-    Prey requires your API key, found in the bottom-left corner of
-    the Prey web account Settings page, to complete installation.
+    Installing Prey requires your Setup API Key, found on your
+    About page on the Setup API Key section, as explained here:
+
+      https://help.preyproject.com/article/316-unattended-install-for-macos
+
     The API key may be set as an environment variable as follows:
 
-      API_KEY="abcdef123456" brew cask install prey
+      HOMEBREW_PREY_SETUP_API_KEY="foobar123" brew install --cask prey
   EOS
 end

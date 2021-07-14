@@ -1,13 +1,14 @@
-cask 'cocoarestclient' do
-  version '1.4.3'
-  sha256 'e6112888fe44ce06f3c4538aa78d413dce1adcee4fd456266c013bb8ec10d1f7'
+cask "cocoarestclient" do
+  version "1.4.6"
+  sha256 "1bca8c7980fe656b95907569519538905da2141974e2bb9df2600a242f00b4e6"
 
-  # github.com/mmattozzi/cocoa-rest-client was verified as official when first introduced to the cask
-  url "https://github.com/mmattozzi/cocoa-rest-client/releases/download/#{version}/CocoaRestClient-#{version}.dmg"
-  appcast 'https://github.com/mmattozzi/cocoa-rest-client/releases.atom',
-          checkpoint: '17b90c985e2c4d54c4a03d44efa9c9a7538fe65324a37d8e369b0c9bf5eb743d'
-  name 'CocoaRestClient'
-  homepage 'https://mmattozzi.github.io/cocoa-rest-client/'
+  url "https://github.com/mmattozzi/cocoa-rest-client/releases/download/#{version}/CocoaRestClient-#{version}.dmg",
+      verified: "github.com/mmattozzi/cocoa-rest-client/"
+  name "CocoaRestClient"
+  desc "App for testing HTTP/REST endpoints"
+  homepage "https://mmattozzi.github.io/cocoa-rest-client/"
 
-  app 'CocoaRestClient.app'
+  depends_on macos: ">= :sierra"
+
+  app "CocoaRestClient.app"
 end

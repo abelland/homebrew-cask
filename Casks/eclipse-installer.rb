@@ -1,14 +1,25 @@
-cask 'eclipse-installer' do
-  version '4.7.0,oxygen:R'
-  sha256 '610b28ad30fc9ba044c87cca87ef66abdbe938d3ea50d112a81e36f953a72c0e'
+cask "eclipse-installer" do
+  version "4.20.0,2021-06:R"
+  sha256 "5c2b0f5e69b8333b3f23c316133c6ba0f7c6826192a207e25033f89c61678995"
 
   url "https://eclipse.org/downloads/download.php?file=/oomph/epp/#{version.after_comma.before_colon}/#{version.after_colon}/eclipse-inst-mac64.tar.gz&r=1"
-  name 'Eclipse Installer'
-  homepage 'https://eclipse.org/'
+  name "Eclipse Installer"
+  name "Eclipse IDE installer"
+  desc "Install and update your Eclipse Development Environment"
+  homepage "https://eclipse.org/"
 
-  depends_on macos: '>= :leopard'
+  livecheck do
+    url "https://www.eclipse.org/downloads/packages/"
+    strategy :page_match do |page|
+      page.scan(/Eclipse IDE (\d+-\d+) R Packages/i).map do |release|
+        version_page = Homebrew::Livecheck::Strategy.page_content("https://projects.eclipse.org/releases/#{release[0]}")[:content]
+        version = version_page.scan(%r{href="/projects/eclipse/releases/(\d+(?:\.\d+)*)"}i)
+        "#{version[0][0]},#{release[0]}:R"
+      end
+    end
+  end
 
-  app 'Eclipse Installer.app'
+  app "Eclipse Installer.app"
 
   caveats do
     depends_on_java

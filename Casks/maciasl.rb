@@ -1,22 +1,12 @@
-cask 'maciasl' do
-  if MacOS.version == :lion
-    version '1.3'
-    sha256 '6ba1eafbdf8d954f3c72fc4d5d9e06e15b101522ac253772a06c8579c45675de'
+cask "maciasl" do
+  version "1.6.1"
+  sha256 "9ba67e2b2f66383ceea6ddf57d9408150e70a4cff58fa9c5806c80772370fdc8"
 
-    url "https://downloads.sourceforge.net/maciasl/#{version}/MaciASL_Lion.zip"
-  else
-    version '1.4'
-    sha256 '24c0dbaa9a13231b8c8e364ef0e6d60656718320ce69d8bb23aa5bc27e82e87d'
+  url "https://github.com/acidanthera/MaciASL/releases/download/#{version}/MaciASL-#{version}-RELEASE.dmg"
+  name "MaciASL"
+  desc "ACPI Machine Language (AML) compiler and IDE"
+  homepage "https://github.com/acidanthera/MaciASL"
 
-    url "https://downloads.sourceforge.net/maciasl/#{version}/MaciASL.zip"
-    appcast 'https://sourceforge.net/projects/maciasl/rss',
-            checkpoint: '5d54d6eec240c14766700261db0f1bed7a0978ea7fd07ada29d5377d955de9b7'
-  end
-
-  name 'MaciASL'
-  homepage 'https://sourceforge.net/projects/maciasl/'
-
-  depends_on macos: '>= :lion'
-
-  app 'MaciASL.app'
+  app "MaciASL.app"
+  binary "#{appdir}/MaciASL.app/Contents/MacOS/iasl-stable", target: "iasl"
 end

@@ -1,13 +1,21 @@
-cask 'smartgit' do
-  version '17.1.0'
-  sha256 '984096381e6d84ab69a6d3c254bff736a81e094a376757c8d41e2d2e04ce189b'
+cask "smartgit" do
+  version "21.1.0"
+  sha256 "6969e3b4fb00b5bf7b255ceb858c567a4bcda8967a728f3d18669d9fc84e5cd5"
 
-  url "https://www.syntevo.com/static/smart/download/smartgit/smartgit-macosx-#{version.dots_to_underscores}.dmg"
-  appcast 'https://www.syntevo.com/smartgit/changelog.txt',
-          checkpoint: 'bcf3bda18796f8569e84913593097f3b3ff3fb2539c57151368c8ad720028517'
-  name 'SmartGit'
-  homepage 'https://www.syntevo.com/smartgit/'
+  url "https://www.syntevo.com/downloads/smartgit/smartgit-macosx-#{version.dots_to_underscores}.dmg"
+  name "SmartGit"
+  desc "Git client"
+  homepage "https://www.syntevo.com/smartgit/"
 
-  app 'SmartGit.app'
+  livecheck do
+    url "https://www.syntevo.com/smartgit/download/"
+    regex(/href=.*?smartgit[._-]macosx[._-]v?(\d+(?:[._]\d+)+)\.dmg/i)
+    strategy :page_match do |page, regex|
+      page.scan(regex)
+          .map { |match| match[0].tr("_", ".") }
+    end
+  end
+
+  app "SmartGit.app"
   binary "#{appdir}/SmartGit.app/Contents/MacOS/SmartGit"
 end

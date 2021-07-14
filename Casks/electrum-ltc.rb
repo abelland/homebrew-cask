@@ -1,13 +1,16 @@
-cask 'electrum-ltc' do
-  version '2.9.3.1'
-  sha256 '1e016660eb002d7bb8f62be360fc377498432ff8b8ad49b05af69e6426064132'
+cask "electrum-ltc" do
+  version "4.0.9.3"
+  sha256 "6a85d6804c3f12058bdf6f5eae755e783c51a2c3fbf4d6b838f586ba11d8dbf6"
 
   url "https://electrum-ltc.org/download/electrum-ltc-#{version}.dmg"
-  appcast 'https://electrum-ltc.org/',
-          checkpoint: 'e0b146fa16071eecc7062175f7c02e68e9abd0643a6b5620c6b6322dc57cc511'
-  name 'Electrum-LTC'
-  homepage 'https://electrum-ltc.org/'
-  gpg "#{url}.asc", key_id: '9914864dfc33499c6ca2beea22453004695506fd'
+  name "Electrum-LTC"
+  homepage "https://electrum-ltc.org/"
 
-  app 'Electrum-LTC.app'
+  livecheck do
+    url "https://electrum-ltc.org/"
+    strategy :page_match
+    regex(%r{href=.*?/electrum-ltc-(\d+(?:\.\d+)*)\.dmg}i)
+  end
+
+  app "Electrum-LTC.app"
 end

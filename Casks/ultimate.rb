@@ -1,12 +1,18 @@
-cask 'ultimate' do
-  version '3.0.9.320'
-  sha256 'ef6fefd87ecee86b33284dd5a2d2dbb26f61daea1804e7c2f55817ad94c8f1bc'
+cask "ultimate" do
+  version "3.0.13.617"
+  sha256 :no_check
 
-  url 'http://download.epubor.com/epubor_ultimate.zip'
-  name 'Ultimate Converter'
-  homepage 'https://www.epubor.com/'
+  url "https://download.epubor.com/epubor_ultimate.zip"
+  name "Epubor Ultimate"
+  desc "Convert and remove DRM on eBooks"
+  homepage "https://www.epubor.com/"
 
-  container nested: "epubor_ultimate/Ultimate_v#{version}.dmg"
+  livecheck do
+    url "https://www.epubor.com/ultimate.html"
+    regex(/Version:\s*(\d+(?:\.\d+)+)/i)
+  end
 
-  app 'Ultimate.app'
+  pkg "Ultimate.pkg"
+
+  uninstall pkgutil: "EpuborStudioUltimate2"
 end

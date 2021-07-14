@@ -1,15 +1,18 @@
-cask 'sound-siphon' do
-  version '2.0.6'
-  sha256 '1bb4aa47fd215fafaa085b71b66a7de615eee27650af1f78382224699cd7ede6'
+cask "sound-siphon" do
+  version "3.3.3"
+  sha256 :no_check # required as upstream package is updated in-place
 
-  # staticz.net was verified as official when first introduced to the cask
-  url "http://staticz.net/downloads/SoundSiphonInstaller_#{version}.dmg"
-  name 'SoundSiphon'
-  homepage 'https://staticz.com/soundsiphon/'
+  url "https://staticz.com/download/5876/"
+  name "SoundSiphon"
+  desc "App audio capture"
+  homepage "https://staticz.com/soundsiphon/"
 
-  pkg 'Sound Siphon Installer.pkg'
+  livecheck do
+    url "http://staticz.net/updates/soundsiphon#{version.major}.rss"
+    strategy :sparkle
+  end
 
-  uninstall pkgutil: 'com.staticz.installer.soundsiphon.*'
+  depends_on macos: ">= :mojave"
 
-  caveats "You need to restart your Mac before using #{token}."
+  app "Sound Siphon.app"
 end

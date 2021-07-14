@@ -1,18 +1,27 @@
-cask 'private-internet-access' do
-  version '75'
-  sha256 'c1a01cf56cfc593ef1a27a6cdd318f96a02359e68d16aa6dca9b19221f96055b'
+cask "private-internet-access" do
+  version "2.9-06393"
+  sha256 "d6768c0057075be6ae789bb4a71141ee6a5c296972b40c50a961d580a7c5f75a"
 
-  url "https://installers.privateinternetaccess.com/download/pia-v#{version}-installer-mac.dmg"
-  name 'Private Internet Access'
-  homepage 'https://www.privateinternetaccess.com/'
+  url "https://installers.privateinternetaccess.com/download/pia-macos-#{version}.zip"
+  name "Private Internet Access"
+  desc "VPN client"
+  homepage "https://www.privateinternetaccess.com/"
 
-  installer manual: 'Private Internet Access Installer.app'
-
-  postflight do
-    set_ownership '~/.pia_manager'
+  livecheck do
+    url "https://www.privateinternetaccess.com/installer/x/download_installer_osx"
+    regex(/pia-macos-(\d+(?:.\d+)*)\.zip/i)
   end
 
-  uninstall delete: '/Applications/Private Internet Access.app'
+  auto_updates true
+  depends_on macos: ">= :sierra"
 
-  zap trash: '~/.pia_manager'
+  installer manual: "Private Internet Access Installer.app"
+
+  postflight do
+    set_ownership "~/.pia_manager"
+  end
+
+  uninstall delete: "/Applications/Private Internet Access.app"
+
+  zap trash: "~/.pia_manager"
 end

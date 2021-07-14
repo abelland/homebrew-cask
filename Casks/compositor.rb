@@ -1,18 +1,23 @@
-cask 'compositor' do
-  version '0.9.17'
-  sha256 'ae58d823b8263b1d9437f95801f6c0d1b0f414d32e0fb47eb09747519985b0f9'
+cask "compositor" do
+  version "1.17.0"
+  sha256 "c9792d631e796e5bf8ddcd35ba90fe64ec42e9ce051c520a4b7516a5754cdda8"
 
-  url 'http://compositorapp.com/downloads/Compositor.dmg'
-  appcast 'http://compositorapp.com/updates/appcast.xml',
-          checkpoint: '8997ec0c1c7f7ddf62da7871fb317d7954cc2bcb9278af610ca347ce0cdfdf50'
-  name 'Compositor'
-  homepage 'http://compositorapp.com/'
+  url "https://compositorapp.com/updates/Compositor_#{version}.zip"
+  name "Compositor"
+  homepage "https://compositorapp.com/"
 
-  app 'Compositor.app'
+  livecheck do
+    url "https://compositorapp.com/updates/appcast.xml"
+    strategy :sparkle
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "Compositor.app"
 
   zap trash: [
-               '~/Library/Application Scripts/com.microlarge.Compositor',
-               '~/Library/Containers/com.microlarge.Compositor',
-               '~/Library/Preferences/com.microlarge.Compositor.plist',
-             ]
+    "~/Library/Application Scripts/com.microlarge.Compositor",
+    "~/Library/Containers/com.microlarge.Compositor",
+    "~/Library/Preferences/com.microlarge.Compositor.plist",
+  ]
 end

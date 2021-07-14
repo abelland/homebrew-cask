@@ -1,17 +1,36 @@
-cask 'duet' do
-  version '1.6.9.3'
-  sha256 '3d99159540ebf61052598a91f7dc1d7c150c3b52a2fceb923dffc8cee8134c16'
+cask "duet" do
+  version "2.3.3.3"
+  sha256 "c2d0d4805b404b35a40d288170f147d12dca40fda564caa9d2e91729d2506ba3"
 
-  # duet.nyc3.digitaloceanspaces.com/Mac was verified as official when first introduced to the cask
-  url "https://duet.nyc3.digitaloceanspaces.com/Mac/#{version.major_minor.dots_to_underscores}/duet-#{version.dots_to_hyphens}.zip"
-  appcast 'https://updates.duetdisplay.com/checkMacUpdates',
-          checkpoint: 'c0c43acdfb45bb85c673c36e191d16a74c46105f8bfdbb185de75bd9172b1624'
-  name 'Duet'
-  homepage 'https://www.duetdisplay.com/'
+  url "https://duet.nyc3.cdn.digitaloceanspaces.com/Mac/#{version.major_minor.dots_to_underscores}/duet-#{version.dots_to_hyphens}.zip",
+      verified: "duet.nyc3.cdn.digitaloceanspaces.com/Mac/"
+  name "Duet"
+  desc "Tool for using an iPad as a second display"
+  homepage "https://www.duetdisplay.com/"
+
+  livecheck do
+    url "https://updates.duetdisplay.com/latestMac"
+    strategy :header_match do |headers|
+      headers["location"][/-(\d+(?:-\d+)*)\.zip/i, 1].tr("-", ".")
+    end
+  end
 
   auto_updates true
 
-  app 'duet.app'
+  app "duet.app"
 
-  uninstall kext: 'com.karios.driver.DuetDisplay'
+  uninstall quit: "com.kairos.duetMac",
+            kext: "com.karios.driver.DuetDisplay"
+
+  zap trash: [
+    "~/Library/Preferences/com.kairos.duet*.plist",
+    "~/Library/Application Support/com.kairos.duet*",
+    "~/Library/Caches/com.crashlytics.data/com.kairos.duet*",
+    "~/Library/Caches/io.fabric.sdk.mac.data/com.kairos.duet*",
+    "~/Library/Caches/com.kairos.duet*",
+  ],
+      rmdir: [
+        "~/Library/Caches/com.crashlytics.data",
+        "~/Library/Caches/io.fabric.sdk.mac.data",
+      ]
 end

@@ -1,20 +1,27 @@
-cask 'enpass' do
-  version '5.6.0'
-  sha256 '784d75e8ba691d7762f5d957feb1cccc54029ff3aff4e9e82213700f5225cbbb'
+cask "enpass" do
+  version "6.6.3.837"
+  sha256 "e3fe6ef310876981214d37a9b9c89a4278c52a79b9acc355152a85f32b326e27"
 
-  # sinew.in was verified as official when first introduced to the cask
-  url "https://dl.sinew.in/mac/setup/Enpass-#{version}.dmg"
-  name 'Enpass'
-  homepage 'https://www.enpass.io/'
+  url "https://dl.enpass.io/stable/mac/package/#{version}/Enpass.pkg"
+  name "Enpass"
+  desc "Password and credentials mananger"
+  homepage "https://www.enpass.io/"
 
-  depends_on macos: '>= :mountain_lion'
+  livecheck do
+    url "https://www.enpass.io/downloads/"
+    regex(%r{href=.*?/(\d+(?:\.\d+)*)/Enpass\.pkg}i)
+  end
 
-  app 'Enpass.app'
+  depends_on macos: ">= :sierra"
+
+  pkg "Enpass.pkg"
+
+  uninstall pkgutil: "in.sinew.Enpass-Desktop.App"
 
   zap trash: [
-               '~/Library/Caches/com.plausiblelabs.crashreporter.data/in.sinew.Enpass-Desktop',
-               '~/Library/Caches/in.sinew.Enpass-Desktop',
-               '~/Library/Preferences/in.sinew.Enpass-Desktop.plist',
-               '~/Library/Saved Application State/in.sinew.Enpass-Desktop.savedState',
-             ]
+    "~/Library/Caches/com.plausiblelabs.crashreporter.data/in.sinew.Enpass-Desktop",
+    "~/Library/Caches/in.sinew.Enpass-Desktop",
+    "~/Library/Preferences/in.sinew.Enpass-Desktop.plist",
+    "~/Library/Saved Application State/in.sinew.Enpass-Desktop.savedState",
+  ]
 end

@@ -1,11 +1,20 @@
-cask 'fluxcenter' do
-  version '1.2.11.47267'
-  sha256 '6a3e9ef041c99ffbf2fa3674bc49769511a3200e27c6522c2a305a8088e6d6e5'
+cask "fluxcenter" do
+  version "21.04.1.50040"
+  sha256 "f542cbea1d24564f4836b3d8d7be9f79d6204e5028af95ee05cc95ae15ea3f3a"
 
-  # files.flux.to was verified as official when first introduced to the cask
-  url "http://files.flux.to/files/Center/MacOS/Flux_FluxCenter_MacOS_Installer_(#{version}).dmg"
-  name 'FluxCenter'
-  homepage 'http://www.fluxhome.com/'
+  url "https://flux-caffeine.s3-accelerate.amazonaws.com/files/Flux/CENTER%20%20INSTALLERS/Flux_FluxCenter_MacOS_Installer_%28#{version}%29.dmg",
+      verified: "flux-caffeine.s3-accelerate.amazonaws.com/"
+  name "FluxCenter"
+  desc "Audio production software"
+  homepage "https://www.flux.audio/"
 
-  app 'FluxCenter.app'
+  livecheck do
+    url "https://www.flux.audio/download/"
+    strategy :page_match
+    regex(%r{href=.*?/Flux_FluxCenter_MacOS_Installer_%28(\d+(?:\.\d+)*)%29\.dmg}i)
+  end
+
+  depends_on macos: ">= :sierra"
+
+  app "FluxCenter.app"
 end

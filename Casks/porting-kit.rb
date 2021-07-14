@@ -1,25 +1,21 @@
-cask 'porting-kit' do
-  version '2.9.201'
-  sha256 '8884a88d074ab5900c24057b7090da6cdf86aabf2ae9ca3632fbe2dbefeb6e6f'
+cask "porting-kit" do
+  version "4.2.0"
+  sha256 "04c681e28a3dcdebe94b810683633293c4c55ba4a525725219e58ea5cd4052ac"
 
-  url "http://portingkit.com/kit/Porting%20Kit%20#{version}.zip"
-  appcast 'http://portingkit.com/kit/updatecast.xml',
-          checkpoint: '87ac90ea6fdc4ae2d1b245b82de73700bde49e992aee53af590656a6ea5a29ee'
-  name 'Porting Kit'
-  homepage 'http://portingkit.com/en/'
+  url "https://portingkit.com/pub/portingkit/Porting%20Kit-#{version}-mac.zip"
+  name "Porting Kit"
+  desc "Install games and apps compiled for Microsoft Windows"
+  homepage "https://portingkit.com/"
+
+  # We don't use the `ElectronBuilder` strategy because the YAML has
+  # an unquoted `releaseDate` which is parsed as a scalar timestamp.
+  # This currently errors as Time is not specified as a permitted class.
+  livecheck do
+    url "https://portingkit.com/pub/portingkit/latest-mac.yml"
+    regex(/Porting(?:%20|\s*)Kit[._-]v?(\d+(?:\.\d+)+)[._-]mac\.zip/i)
+  end
 
   auto_updates true
-  conflicts_with cask: 'porting-kit-legacy'
-  depends_on macos: '>= :mountain_lion'
 
-  app 'Porting Kit.app'
-
-  zap trash: [
-               '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/edu.ufrj.vitormm.porting-kit.sfl*',
-               '~/Library/Application Support/Porting-Kit',
-               '~/Library/Caches/edu.ufrj.vitormm.Porting-Kit',
-               '~/Library/Cookies/edu.ufrj.vitormm.Porting-Kit.binarycookies',
-               '~/Library/Preferences/edu.ufrj.vitormm.Porting-Kit.plist',
-               '~/Library/Saved Application State/edu.ufrj.vitormm.Porting-Kit.savedState',
-             ]
+  app "Porting Kit.app"
 end
